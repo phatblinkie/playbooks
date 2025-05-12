@@ -75,6 +75,7 @@
       ansible.builtin.template:
         src: templates/linux_metrics_template.j2
         dest: "{{ remote_compliance_path }}"
+        mode: '0644'
       vars:
         software_results: "{{ combined_compliance_results.software.results }}"
         compliant_count: "{{ combined_compliance_results.software.counts.compliant }}"
@@ -99,7 +100,7 @@
         echo "# HELP system_patch_version Current system patch version
         # TYPE system_patch_version gauge
         system_patch_version{version=\"{{ system_patch_version }}\"} 1
-        " > "{{ remote_system_version_path }}"
+        " > "{{ remote_system_version_path }}" && chmod 0644 "{{ remote_system_version_path }}"
       when: >
         software_compliance_results.counts.non_compliant == 0 and
         software_compliance_results.counts.missing == 0 and
@@ -110,7 +111,7 @@
         echo "# HELP system_patch_version Current system patch version
         # TYPE system_patch_version gauge
         system_patch_version{version=\"Not Compliant\"} 0
-        " > "{{ remote_system_version_path }}"
+        " > "{{ remote_system_version_path }}" && chmod 0644 "{{ remote_system_version_path }}"
       when: >
         software_compliance_results.counts.non_compliant != 0 or
         software_compliance_results.counts.missing != 0 or
