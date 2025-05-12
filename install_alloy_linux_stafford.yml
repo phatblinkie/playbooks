@@ -1,0 +1,185 @@
+---
+- name: Install and configure Grafana Alloy
+  hosts: all
+  become: yes
+  vars:
+    #grafanahost: '192.168.11.165'
+    grafanahost: '164.225.186.87'
+    alloy_rpm_url: "http://{{ grafanahost }}/rpms/alloy-1.7.5-1.amd64.rpm"
+    alloy_rpm_filename: "alloy-1.7.5-1.amd64.rpm"
+    alloy_config_content: |
+      logging {
+        level = "info"
+      }
+
+      prometheus.remote_write "mimir_host" {
+        endpoint {
+          url = "http://{{ grafanahost }}:9009/api/v1/push"
+          // Optional: Add authentication if needed
+          // basic_auth {
+          //   username = "USER"
+          //   password = "PASS"
+          // }
+        }
+        wal {
+          min_keepalive_time = "5m"   // Discard WAL data older than 5 minutes.. we really dont need much legacy data for a dashboard
+          max_keepalive_time = "10m"  // Upper retention limit, adjust as needed. this is to prevent offline hosts from having a big backlog of entries (that will be rejected slowly) before sending a valid and accepted entry
+        }
+      }
+
+      prometheus.exporter.unix "localhost" {
+        enable_collectors = [
+          "boottime",
+          "cpu",
+          "cpufreq",
+          "diskstats",
+          "edac",
+          "filesystem",
+          "hwmon",
+          "loadavg",
+          "logind",
+          "meminfo",
+          "netclass",
+          "netdev",
+          "netstat",
+          "network_route",
+          "os",
+          "sockstat",
+          "systemd",
+          "textfile",
+          "time",
+          "uname",
+        ]
+
+        textfile {
+          directory = "/var/lib/node_exporter/textfile_collector"
+        }
+
+      }
+
+
+      discovery.relabel "linux_targets" {
+        targets = prometheus.exporter.unix.localhost.targets
+
+        rule {
+          target_label = "ip_address"
+          replacement = "{{ host_ip }}"
+        }
+
+        rule {
+          target_label = "hostname"
+          replacement = "{{ inventory_hostname }}"
+        }
+      }
+
+      // NEW: Component to filter out old metrics
+      // this is to stop metric backlog from making the host appear up, due to slowly rejected metrics when it comes back online.
+      prometheus.relabel "drop_old_metrics" {
+        // First, add current timestamp as a label
+        rule {
+          source_labels = []
+          target_label = "__current_timestamp__"
+          replacement = "${NOW_MS}"
+        }
+
+        // Then drop metrics where (current_timestamp - sample_timestamp) > 10 minutes
+        rule {
+          action = "drop"
+          source_labels = ["__current_timestamp__", "__timestamp__"]
+          regex = "(\\d+);(\\d+)"
+          replacement = "${1} - ${2} > 600000 ? 'true' : 'false'"
+        }
+
+        // Clean up our temporary label
+        rule {
+          action = "labeldrop"
+          regex = "__current_timestamp__"
+        }
+
+        forward_to = [prometheus.remote_write.mimir_host.receiver]
+      }
+
+
+      prometheus.scrape "unix_metrics" {
+        targets    = discovery.relabel.linux_targets.output
+        forward_to = [prometheus.relabel.drop_old_metrics.receiver]
+      }
+
+
+      loki.write "loki_host" {
+        endpoint {
+          url = "http://{{ grafanahost }}:3100/loki/api/v1/push"
+        }
+      }
+
+      loki.source.journal "journal_logs" {
+        forward_to = [loki.write.loki_host.receiver]
+
+        labels = {
+          job  = "journal",
+          host = env("HOSTNAME"),
+          ip_address = "{{ host_ip }}",
+        }
+      }
+
+
+  tasks:
+    - name: Check if inventory_hostname is an IP address
+      set_fact:
+        is_ip_address: "{{ inventory_hostname | regex_search('^\\d+\\.\\d+\\.\\d+\\.\\d+$') is not none }}"
+      delegate_to: localhost
+
+    - name: Resolve IP address on control node if not already an IP address
+      shell: getent ahostsv4 {{ inventory_hostname }} | head -n 1 | awk '{print $1}'
+      register: ip_lookup
+      when: not is_ip_address
+      delegate_to: localhost
+
+    - name: Set IP address fact
+      set_fact:
+        host_ip: "{{ inventory_hostname if is_ip_address else ip_lookup.stdout.strip() }}"
+      delegate_to: localhost
+
+    - name: fetch file into EE
+      ansible.builtin.get_url:
+        url: "{{ alloy_rpm_url }}"
+        dest: "/tmp/alloy-1.7.5-1.amd64.rpm"
+        mode: '0644'
+      delegate_to: localhost
+        #run_once: true
+
+    - name: copy file to remote host
+      ansible.builtin.copy:
+        src: "/tmp/alloy-1.7.5-1.amd64.rpm"
+        dest: "/tmp/alloy-1.7.5-1.amd64.rpm"
+        mode: 0644
+
+    - name: Install Grafana Alloy RPM
+      ansible.builtin.yum:
+        name: "/tmp/alloy-1.7.5-1.amd64.rpm"
+        state: present
+        disable_gpg_check: true
+
+    - name: Ensure Alloy configuration directory exists (verification)
+      ansible.builtin.stat:
+        path: /etc/alloy
+      register: alloy_dir
+
+    - name: Create config file with specified content
+      ansible.builtin.copy:
+        dest: /etc/alloy/config.alloy
+        content: "{{ alloy_config_content }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Start and enable Alloy service
+      ansible.builtin.service:
+        name: alloy
+        state: restarted
+        enabled: yes
+
+    - name: Clean up RPM file
+      ansible.builtin.file:
+        path: "/tmp/alloy-1.7.5-1.amd64.rpm"
+        state: absent
