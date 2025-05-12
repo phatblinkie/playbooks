@@ -1,0 +1,138 @@
+---
+- name: Generate and store software inventory
+  hosts: all
+  gather_facts: no
+  vars:
+    remote_metrics_path: "C:\\metrics\\software_metrics.prom"
+    remote_metrics_updates_path: "C:\\metrics\\windows_update_history.prom"
+    remote_output_dir: "C:\\metrics"
+    output_filename: "{{ inventory_hostname }}_required_software.yml"
+    output_filename_updates: "{{ inventory_hostname }}_required_software_updates.yml"
+    local_output_dir: "/home/aap/aap/controller/data/projects/_58__grafana/vars"
+    #local_output_dir: "/home/admin/aap/controller/data/projects/playbooks-main/vars"
+    #path used so the verfication files are read by another playbook
+
+  tasks:
+    # Verify prerequisites
+    - name: Verify metrics directory exists
+      ansible.windows.win_stat:
+        path: "{{ remote_output_dir }}"
+      register: metrics_dir
+
+    - name: Verify metrics file exists
+      ansible.windows.win_stat:
+        path: "{{ remote_metrics_path }}"
+      register: remote_metrics
+      when: metrics_dir.stat.exists
+
+    - name: Generate software inventory file including installed updates
+      #windows_update_history{title="Security Update for Microsoft Windows (KB5005565)",operation="Installation",status="Succeeded"} 1
+      #windows_software_info{displayname="VMware vCenter Converter Standalone",version="6.2.0.8466193",publisher="VMware Inc."} 1
+      ansible.windows.win_shell: |
+        $ErrorActionPreference = "Stop"
+        try {
+            $output = "# Auto-generated software inventory`nrequired_software:`n"
+
+            # Pattern for matching software info
+            $softwarePattern = 'windows_software_info\{displayname="(.+?)",version="(.+?)"'
+
+            # Pattern for matching update history (title, operation, status)
+            #$updatePattern = 'windows_update_history\{[^}]*title="(.+?)",operation="(.+?)",status="(.+?)"'
+
+            # Modified pattern for matching only succeeded updates
+            $updatePattern = 'windows_update_history\{[^}]*title="(.+?)",operation="(.+?)",status="(?i)succeeded(?-i)"'
+
+            # Process software metrics
+            Get-Content "{{ remote_metrics_path }}" | ForEach-Object {
+                if ($_ -match $softwarePattern) {
+                    $output += "  - name: `"$($matches[1])`"`n"
+                    $output += "    version: `"$($matches[2])`"`n"
+                }
+            }
+
+            # Process update metrics
+            $output += "`nrequired_updates:`n"
+            Get-Content "{{ remote_metrics_updates_path }}" | ForEach-Object {
+                if ($_ -match $updatePattern) {
+                    $output += "  - title: `"$($matches[1])`"`n"
+                    $output += "    operation: `"$($matches[2])`"`n"
+                    #$output += "    status: `"$($matches[3])`"`n"
+                    $output += "    status: `"succeeded`"`n"
+                }
+            }
+
+            $output | Out-File "{{ remote_output_dir }}\\{{ output_filename }}" -Encoding utf8 -Force
+            exit 0
+        }
+        catch {
+            Write-Error "Failed to generate inventory: $_"
+            exit 1
+        }
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+      register: generation_result
+      changed_when: generation_result.rc == 0
+
+    # Prepare controller storage
+    - name: Ensure controller directory exists
+      ansible.builtin.file:
+        path: "{{ local_output_dir }}"
+        state: directory
+        mode: '0755'
+      delegate_to: AAP
+      run_once: true
+
+    # Transfer to controller
+    - name: Load file content into memory
+      ansible.builtin.win_shell: |
+        Get-Content "{{ remote_output_dir }}\\{{ output_filename }}" -Raw
+      register: file_content
+      delegate_to: "{{ inventory_hostname }}"
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - generation_result.rc == 0
+      changed_when: false
+
+    - name: Store file on controller
+      ansible.builtin.copy:
+        content: "{{ file_content.stdout }}"
+        dest: "{{ local_output_dir }}/{{ output_filename }}"
+        mode: '0644'
+      delegate_to: AAP
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - file_content.stdout is defined
+
+    # Verification and reporting
+    - name: Verify controller file
+      ansible.builtin.stat:
+        path: "{{ local_output_dir }}/{{ output_filename }}"
+      register: stored_file
+      delegate_to: AAP
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+
+    - name: Display results
+      debug:
+        msg: |
+          Software inventory generated:
+          - Windows path: {{ remote_output_dir }}\\{{ output_filename }}
+          - Controller path: {{ local_output_dir }}/{{ output_filename }}
+          - File size: {{ stored_file.stat.size | default('0') }} bytes
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - stored_file.stat.exists
+
+    # Fixed error handling task
+    - name: Handle missing components
+      debug:
+        msg: "{% if not metrics_dir.stat.exists %}Error: Metrics directory missing at {{ remote_output_dir }}{% elif not remote_metrics.stat.exists %}Error: Metrics file missing at {{ remote_metrics_path }}{% else %}Error: Unknown issue during processing{% endif %}"
+      when: >
+        (not metrics_dir.stat.exists) or
+        (not remote_metrics.stat.exists) or
+        (generation_result is defined and generation_result.rc != 0)

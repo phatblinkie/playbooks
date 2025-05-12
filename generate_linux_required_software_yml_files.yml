@@ -10,12 +10,13 @@
     output_filename: "{{ inventory_hostname }}_required_software.yml"
     local_output_dir: "/home/admin/aap/controller/data/projects/playbooks-main/vars"
     generate_software_compliance_yml_file_path: "/usr/local/bin/generate_software_compliance_yml_file.sh"
+    ansible_remote_tmp: /var/tmp/ans
 
   tasks:
     # Verify prerequisites
     - name: Verify metrics directory exists
       ansible.builtin.stat:
-        path: "{{ remote_output_dir }}"
+        path: "{{ remote_output_dir_node }}"
       register: metrics_dir
 
     - name: Verify metrics file exists
@@ -89,7 +90,7 @@
     # Fixed error handling task
     - name: Handle missing components
       debug:
-        msg: "{% if not metrics_dir.stat.exists %}Error: Metrics directory missing at {{ remote_output_dir }}{% elif not remote_metrics.stat.exists %}Error: Metrics file missing at {{ remote_metrics_path }}{% else %}Error: Unknown issue during processing{% endif %}"
+        msg: "{% if not metrics_dir.stat.exists %}Error: Metrics directory missing at {{ remote_output_dir_node }}{% elif not remote_metrics.stat.exists %}Error: Metrics file missing at {{ remote_metrics_path }}{% else %}Error: Unknown issue during processing{% endif %}"
       when: >
         (not metrics_dir.stat.exists) or
         (not remote_metrics.stat.exists) or
