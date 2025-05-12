@@ -1,0 +1,5 @@
+required_software:
+{% for item in extracted_software %}
+  - name: "{{ item.name }}"
+    version: "{{ item.version }}"
+{% endfor %}

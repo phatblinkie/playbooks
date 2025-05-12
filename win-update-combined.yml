@@ -1,0 +1,126 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Update or Install 7-Zip
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/7z2409-x64.exe
+        product_id: 7-Zip
+        creates_path: C:\Program Files\7-Zip\7z.exe
+        creates_version: 24.09
+        arguments: /S
+        state: present
+      when: win_7zip == true
+        
+    - name: Update or Install Acrobat Reader
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/AcroRdrDC2400520320_en_US.exe
+        state: present
+      when: win_acrreader == "null"
+      
+    - name: Update or Install Acrobat Pro
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/AcroRdrDC2400520320_en_US.exe
+        state: present
+      when: win_acrobat == "null"
+      
+    - name: Update or Install Firefox ESR
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/Firefox%20Setup%20128.6.0esr.exe
+        product_id: Mozilla Firefox 128.6.0 ESR (x64 en-US)
+        arguments: /S
+        state: present
+      when: win_firefox == true
+      
+    - name: Update or Install Google Chrome
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/GoogleChromeStandaloneEnterprise64.msi
+        product_id: '{53B568B1-41B1-3D05-B14F-FC57035DA908}'
+        arguments:
+          - /qn
+          - /norestart
+        state: present
+      when: win_gchrome == true
+      
+    - name: Update or Install Java x32 and x64
+      include_tasks: win-java-tasks.yml
+      when: win_java == true
+      
+    - name: Update or Install Notepad++
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/npp.8.7.5.Installer.x64.exe
+        product_id: Notepad++
+        creates_path: C:\Program Files\Notepad++\notepad++.exe
+        creates_version: 8.7.5
+        arguments: /S
+        state: present
+      when: win_notepadpp == true
+      
+    - name: Update or Install Putty
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/putty-64bit-0.82-installer.msi
+        product_id: '{A2B01D7C-F700-4ECC-8C7F-79C597CC7628}'
+        arguments:
+          - /qn
+          - /norestart
+        state: present
+      when: win_putty == true
+      
+    - name: Update Microsoft Visual C++ 2015-2019 Redist (x86)
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/VC_redist.x86.exe
+        product_id: '{C2BB95AA-90F3-4891-81C1-A7E565BB836C}'
+        arguments:
+          - /install
+          - /quiet
+          - /norestart
+        state: present
+
+    - name: Update Microsoft Visual C++ 2015-2019 Redist (x64)
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/VC_redist.x64.exe
+        product_id: '{382F1166-A409-4C5B-9B1E-85ED538B8291}'
+        arguments:
+          - /install
+          - /quiet
+          - /norestart
+        state: present
+        
+    - name: Update or Install WinSCP
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/WinSCP-6.3.6-Setup.exe
+        product_id: winscp3_is1
+        creates_path: C:\Program Files (x86)\WinSCP\WinSCP.exe
+        creates_version: 6.3.6
+        arguments:
+          - /SILENT
+          - /ALLUSERS
+        state: present
+      when: win_winscp == true
+
+
+    - name: Apply Windows Updates
+      ansible.windows.win_updates:
+        category_names:
+          - CriticalUpdates
+          - DefinitionUpdates
+          - SecurityUpdates
+          - Updates
+          - Update Rollups
+        log_path: c:\ansible_wu1.txt
+        reboot: true
+        reboot_timeout: 600
+
+    - name: Display host_var values
+      ansible.builtin.debug:
+        msg:
+          - "{{ win_7zip }}"
+          - "{{ win_acrreader }}"
+          - "{{ win_acrobat }}"
+          - "{{ win_firefox }}"
+          - "{{ win_gchrome }}"     
+          - "{{ win_java }}"
+          - "{{ win_notepadpp }}"
+          - "{{ win_putty }}"
+          - "{{ win_winscp }}"
+

@@ -1,0 +1,7 @@
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:a6:f7", ATTR{type}=="1", NAME="net0"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:ad:20", ATTR{type}=="1", NAME="net1"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:ee:46", ATTR{type}=="1", NAME="net2"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:76:85", ATTR{type}=="1", NAME="net3"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:ea:0b", ATTR{type}=="1", NAME="net4"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:13:7a", ATTR{type}=="1", NAME="net5"
+SUBSYTEM=="net", DRIVERS=="?*", ACTION=="add", ATTR{address}=="00:50:56:b0:ee:e4", ATTR{type}=="1", NAME="net6"

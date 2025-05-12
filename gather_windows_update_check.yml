@@ -1,0 +1,44 @@
+---
+- name: Windows Update Availability Check (Optimized)
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Check if inventory_hostname is an IP address
+      shell: |
+        if [[ {{ inventory_hostname }} =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo true
+        else
+          echo false
+        fi
+      register: is_ip_address
+      changed_when: false
+      delegate_to: localhost
+
+    - name: Resolve IP address on control node if not already an IP address
+      shell: getent ahostsv4 {{ inventory_hostname }} | head -n 1 | awk '{print $1}'
+      register: ip_lookup
+      when: not is_ip_address.stdout == 'true'
+      delegate_to: localhost
+
+    - name: Set IP address fact
+      set_fact:
+        host_ip: "{{ inventory_hostname if is_ip_address.stdout == 'true' else ip_lookup.stdout.strip() }}"
+      delegate_to: localhost
+
+    - name: Create required directories
+      win_file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - C:\scripts
+        - C:\metrics
+
+      - name: Execute Windows Update check script
+        win_shell: |
+          powershell.exe -ExecutionPolicy Bypass -File C:\scripts\check_windows_updates.ps1
+        register: update_check
+
+      - name: Display update check results
+        debug:
+          msg: "{{ update_check.stdout_lines | join('\n') }}"

@@ -1,0 +1,75 @@
+    - name: Stop OpenFire Service
+      ansible.windows.win_service:
+        name: OpenFire
+        state: stopped
+    - name: Uninstall Java x64 8-361
+      win_package:
+        product_id: '{26A24AE4-039D-4CA4-87B4-2F64180361F0}'
+        state: absent
+    - name: Wait for msiexec.exe to complete Uninstall
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Uninstall Java x32 8-361
+      win_package:
+        product_id: '{26A24AE4-039D-4CA4-87B4-2F32180361F0}'
+        state: absent
+    - name: Wait for msiexec.exe to complete Uninstall
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Uninstall Java x64 8-421
+      win_package:
+        product_id: '{77924AE4-039E-4CA4-87B4-2F64180421F0}'
+        state: absent
+    - name: Wait for msiexec.exe to complete Uninstall
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Uninstall Java x32 8-421
+      win_package:
+        product_id: '{77924AE4-039E-4CA4-87B4-2F32180421F0}'
+        state: absent
+    - name: Wait for msiexec.exe to complete Uninstall
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Install Java x64
+      win_package:
+        path: http://164.225.186.93/software/jre-8u431-windows-x64.exe
+        product_id: '{71024AE4-039E-4CA4-87B4-2F64180431F0}'
+        arguments:
+          - /s
+          - INSTALLDIR=C:\Program Files\Java\jre8
+          - REBOOT=Suppress
+          - AUTO_UPDATE=0
+        state: present
+    - name: Wait for msiexec.exe to complete Install
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Install Java x32
+      win_package:
+        path: http://164.225.186.93/software/jre-8u431-windows-i586.exe
+        product_id: '{71024AE4-039E-4CA4-87B4-2F32180431F0}'
+        arguments:
+          - /s
+          - INSTALLDIR=C:\Program Files (x86)\Java\jre8
+          - REBOOT=Suppress
+          - AUTO_UPDATE=0
+        state: present
+    - name: Wait for msiexec.exe to complete Install
+      community.windows.win_wait_for_process:
+        process_name_exact: msiexec.exe
+        state: absent
+        timeout: 900
+    - name: Start OpenFire Service
+      ansible.windows.win_service:
+        name: OpenFire
+        state: started
+

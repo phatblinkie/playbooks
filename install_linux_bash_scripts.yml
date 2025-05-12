@@ -1,0 +1,160 @@
+---
+  - name: Install bash scripts to /usr/local/bin/ and systemd service files
+    hosts: all
+    gather_facts: yes
+    become: yes
+    vars:
+      software_exporter_service_path: "/etc/systemd/system/software-exporter.service"
+      software_exporter_service_content: |
+        [Unit]
+        Description=Linux Software Metrics Exporter
+        After=network.target
+
+        [Service]
+        Type=oneshot
+        User=root
+        ExecStart=/usr/local/bin/export_installed_software.sh
+      software_exporter_timer_path: "/etc/systemd/system/software-exporter.timer"
+      software_exporter_timer_content: |
+        [Unit]
+        Description=Run software exporter hourly
+
+        [Timer]
+        OnCalendar=hourly
+        Persistent=true
+
+        [Install]
+        WantedBy=timers.target
+      export_installed_software_path: "/usr/local/bin/export_installed_software.sh"
+      export_installed_software_content: |
+        #!/bin/bash
+        OUTPUT_DIR="/var/lib/node_exporter/textfile_collector"
+        METRIC_FILE="${OUTPUT_DIR}/linux_software_metrics.prom.tmp"
+        FINAL_FILE="${OUTPUT_DIR}/linux_software_metrics.prom"
+        UPDATES_FILE="${OUTPUT_DIR}/updates_available.prom"
+        UPDATES_FILE_TMP="${OUTPUT_DIR}/updates_available.prom.tmp"
+
+        # Create directory if needed
+        mkdir -p "$OUTPUT_DIR"
+
+        # Function to escape Prometheus label values
+        escape_label() {
+          echo "$1" | sed \
+            -e 's/\\/\\\\/g' \
+            -e 's/"/\\"/g' \
+            -e 's/^/"/' \
+            -e 's/$/"/' \
+            -e 's/\n/\\n/g' \
+            -e 's/\r/\\r/g'
+        }
+
+        # Write the metric header
+        echo '# HELP linux_software_info Installed RPM package information
+        # TYPE linux_software_info gauge'  > "$METRIC_FILE"
+
+        echo '# HELP linux_updates_available Available package updates
+        # TYPE linux_updates_available gauge
+        # HELP linux_updates_available_count Number of available linux updates
+        # TYPE linux_updates_available_count gauge' > "$UPDATES_FILE_TMP"
+
+        # Process installed RPM packages
+        if command -v rpm >/dev/null; then
+          # Get installed packages
+          rpm -qa --queryformat '%{NAME} %{VERSION}-%{RELEASE} %{ARCH}\n' | uniq -i -u | while read pkg ver arch; do
+            printf 'linux_software_info{name=%s,version=%s,arch=%s} 1\n' \
+              "$(escape_label "$pkg")" \
+              "$(escape_label "$ver")" \
+              "$(escape_label "$arch")" >> "$METRIC_FILE"
+          done
+
+          # Check for available updates (needs root)
+          linux_updates_available_count=0
+          if [ "$(id -u)" -eq 0 ]; then
+            yum check-update -q --nogpgcheck >/dev/null 2>&1
+            if [ $? -eq 100 ]; then
+              yum list updates -q --nogpgcheck | tail -n +2 | uniq -i -u | while read pkg available ver; do
+                printf 'linux_package_updates{name=%s,available_version=%s} 1\n' \
+                  "$(escape_label "$pkg")" \
+                  "$(escape_label "$available")" >> "$UPDATES_FILE_TMP"
+              done
+              linux_updates_available_count=$(yum list updates -q --nogpgcheck | tail -n +2 | wc -l)
+              printf "linux_updates_available_count{} %d\n" "$linux_updates_available_count" >> "$UPDATES_FILE_TMP"
+            else
+              # No updates available
+              printf "linux_updates_available_count{} 0\n" >> "$UPDATES_FILE_TMP"
+            fi
+          fi
+        fi
+
+        # Atomically update the file
+        mv -f "$METRIC_FILE" "$FINAL_FILE"
+        mv -f "$UPDATES_FILE_TMP" "$UPDATES_FILE"
+
+      generate_software_compliance_yml_file_path: "/usr/local/bin/generate_software_compliance_yml_file.sh"
+      generate_software_compliance_yml_file_content: |
+        #!/bin/bash
+        #version 1.0
+        mkdir -p "{{ remote_output_dir }}" 2>&1 > /dev/null
+        echo "required_software:" > "{{ remote_output_dir }}/{{ output_filename }}.tmp"
+
+        # Process installed packages
+        grep 'linux_software_info{' "{{ remote_metrics_path }}" | sed -n 's/.*name="\([^"]*\)",version="\([^"]*\)",arch="\([^"]*\)".*/  - hashname: "\1-\2"\n    name: "\1"\n    version: "\2"/p' >> "{{ remote_output_dir }}/{{ output_filename }}.tmp"
+
+        mv -f "{{ remote_output_dir }}/{{ output_filename }}.tmp" "{{ remote_output_dir_node }}/{{ output_filename }}"
+        rm -f "{{ remote_output_dir }}/{{ output_filename }}.tmp"
+
+    tasks:
+      - name: create needed directory /var/lib/node_exporter/textfile_collector
+        ansible.builtin.file:
+          path: /var/lib/node_exporter/textfile_collector
+          state: directory
+          mode: '0755'
+
+      - name: Install software exporter service file
+        ansible.builtin.copy:
+          dest: "{{ software_exporter_service_path }}"
+          content: "{{ software_exporter_service_content }}"
+          owner: root
+          group: root
+          mode: '0644'
+
+      - name: Install software exporter timer file
+        ansible.builtin.copy:
+          dest: "{{ software_exporter_timer_path }}"
+          content: "{{ software_exporter_timer_content }}"
+          owner: root
+          group: root
+          mode: '0644'
+
+      - name: Install software exporter bash script
+        ansible.builtin.copy:
+          dest: "{{ export_installed_software_path }}"
+          content: "{{ export_installed_software_content }}"
+          owner: root
+          group: root
+          mode: '0755'
+
+      - name: Install software compliance yml file bash script
+        ansible.builtin.copy:
+          dest: "{{ generate_software_compliance_yml_file_path }}"
+          content: "{{ generate_software_compliance_yml_file_content }}"
+          owner: root
+          group: root
+          mode: '0755'
+          force: true
+        vars:
+          remote_metrics_path: "/var/lib/node_exporter/textfile_collector/linux_software_metrics.prom"
+          remote_output_dir_node: "/var/lib/node_exporter/textfile_collector"
+          remote_output_dir: "/var/tmp/ans/software_inventory"
+          output_filename: "{{ inventory_hostname }}_required_software.yml"
+
+      - name: Force systemd to reread configs
+        ansible.builtin.systemd_service:
+          daemon_reload: true
+
+      - name: Enable and restart service software-exporter and ensure it is not masked
+        ansible.builtin.systemd_service:
+          name: software-exporter
+          enabled: true
+          masked: no
+          state: restarted

@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+       is_hello1:
+         stdout: "nonce"
+  tasks:
+    - name: Read hello file
+      shell: cat "hello"
+      register: cat_contents
+
+    - name: Read hello file for var
+      shell: cat "hello"
+      register: cat_hello
+
+
+    - name: Check if hello
+      action: command echo "system says hello"
+      when: cat_contents.stdout == "hello"
+      register: cat_hello
+
+    - debug: msg="{{ cat_hello.stdout }}"
+

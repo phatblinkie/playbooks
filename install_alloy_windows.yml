@@ -1,0 +1,239 @@
+---
+  - name: Install and configure Grafana Alloy on Windows
+    hosts: all
+    gather_facts: yes
+    vars:
+      alloy_version: "1.7.5"
+        #grafanahost: "164.225.186.87"
+      grafanahost: "192.168.11.165"
+      alloy_installer_url: "http://{{ grafanahost }}/rpms/alloy-installer-windows-amd64.exe.zip"
+      #hosted on the grafana server at the moment.
+      alloy_install_dir: "C:\\Program Files\\GrafanaLabs\\Alloy"
+      alloy_config_path: "C:\\Program Files\\GrafanaLabs\\Alloy\\config.alloy"
+      alloy_service_name: "alloy"
+      alloy_config_content: |
+        logging {
+          level = "info"
+        }
+
+        prometheus.remote_write "mimir_host" {
+          endpoint {
+            url = "http://{{ grafanahost }}:9009/api/v1/push"
+          }
+          wal {
+            min_keepalive_time = "5m"   // Discard WAL data older than 5 minutes.. we really dont need much legacy data for a dashboard - hopefully this setting even works - i have doubts.
+            max_keepalive_time = "10m"  // Upper retention limit, adjust as needed. this is to prevent offline hosts from having a big backlog of entries (that will be rejected slowly) before sending a valid and accepted entry
+          }
+        }
+
+        prometheus.exporter.windows "localhost" {
+          enabled_collectors = [
+            "cpu",
+            "cs",
+            "logical_disk",
+            "net",
+            "os",
+            "service",
+            "system",
+            "textfile",
+            "logon",
+            "memory",
+            "textfile",
+          ]
+
+          text_file {
+            text_file_directory = "C:\\metrics"
+          }
+        }
+
+        discovery.relabel "windows_targets" {
+          targets = prometheus.exporter.windows.localhost.targets
+
+          rule {
+            target_label = "ip_address"
+            replacement = "{{ host_ip }}"
+          }
+
+          rule {
+            target_label = "hostname"
+            replacement = "{{ inventory_hostname }}"
+          }
+        }
+
+        // NEW: Age filter for Windows metrics
+        prometheus.relabel "drop_old_windows_metrics" {
+          // Add current timestamp as temporary label
+          rule {
+            source_labels = []
+            target_label = "__current_timestamp__"
+            replacement = "${NOW_MS}"
+          }
+          
+          // Drop metrics older than 10 minutes
+          rule {
+            action = "drop"
+            source_labels = ["__current_timestamp__", "__timestamp__"]
+            regex = "(\\d+);(\\d+)"
+            replacement = "${1} - ${2} > 600000 ? 'true' : 'false'"
+          }
+
+          // Clean up temporary label
+          rule {
+            action = "labeldrop"
+            regex = "__current_timestamp__"
+          }
+          
+          forward_to = [prometheus.remote_write.mimir_host.receiver]
+        }
+        prometheus.scrape "windows_metrics" {
+          targets    = discovery.relabel.windows_targets.output
+          forward_to = [prometheus.relabel.drop_old_windows_metrics.receiver]  // Updated to use filter
+        }
+
+        loki.write "remote_loki" {
+          endpoint {
+            url = "http://{{ grafanahost }}:3100/loki/api/v1/push"
+          }
+        }
+
+        loki.relabel "windows_mapping" {
+          forward_to = [loki.write.remote_loki.receiver]
+          rule {
+            source_labels = ["computer"]
+            target_label  = "agent_hostname"
+          }
+          rule {
+            target_label = "ip_address"
+            replacement = "{{ host_ip }}"
+          }
+          rule {
+            target_label = "hostname"
+            replacement = "{{ inventory_hostname }}"
+          }
+        }
+
+        loki.process "parse_eventlog" {
+          forward_to = [
+            loki.relabel.windows_mapping.receiver,
+          ]
+
+          stage.json {
+            expressions = {
+              "source"  = "source",
+            }
+          }
+
+          stage.labels {
+            values = {
+              "source"  = "source",
+            }
+          }
+        }
+
+        loki.source.windowsevent "system" {
+          forward_to = [
+            loki.process.parse_eventlog.receiver,
+          ]
+          labels = {
+            job = "windows_events",
+            host = "{{ inventory_hostname }}",
+            ip_address = "{{ host_ip }}",
+          }
+          eventlog_name = "System"
+        }
+
+        loki.source.windowsevent "application" {
+          forward_to = [
+            loki.process.parse_eventlog.receiver,
+          ]
+          labels = {
+            job = "windows_events",
+            host = "{{ inventory_hostname }}",
+            ip_address = "{{ host_ip }}",
+          }
+          eventlog_name = "Application"
+        }
+
+    tasks:
+      - name: Check if inventory_hostname is an IP address
+        set_fact:
+          is_ip_address: "{{ inventory_hostname | regex_search('^\\d+\\.\\d+\\.\\d+\\.\\d+$') is not none }}"
+        delegate_to: localhost
+
+      - name: Resolve IP address on control node if not already an IP address
+        shell: getent ahostsv4 {{ inventory_hostname }} | head -n 1 | awk '{print $1}'
+        register: ip_lookup
+        when: not is_ip_address
+        delegate_to: localhost
+
+      - name: Set IP address fact
+        set_fact:
+          host_ip: "{{ inventory_hostname if is_ip_address else ip_lookup.stdout.strip() }}"
+        delegate_to: localhost
+
+      - name: Check if Alloy is already installed
+        win_stat:
+          path: "{{ alloy_install_dir }}\\alloy.exe"
+        register: alloy_installed
+
+      - name: fetch installer file into EE
+        ansible.builtin.get_url:
+          url: "{{ alloy_installer_url }}"
+          dest: "/tmp/alloy-installer-{{ alloy_version }}.zip"
+        delegate_to: localhost
+        when: not alloy_installed.stat.exists
+
+      - name: copy installer file to remote host
+        ansible.windows.win_copy:
+          src: "/tmp/alloy-installer-{{ alloy_version }}.zip"
+          dest: "C:\\Windows\\Temp\\alloy-installer-{{ alloy_version }}.zip"
+        when: not alloy_installed.stat.exists
+
+      - name: Extract installer
+        win_unzip:
+          src: "C:\\Windows\\Temp\\alloy-installer-{{ alloy_version }}.zip"
+          dest: "C:\\Windows\\Temp"
+          creates: "C:\\Windows\\Temp\\alloy-installer-windows-amd64.exe"
+        when: not alloy_installed.stat.exists
+
+      - name: Install Alloy silently to correct path
+        win_command: "C:\\Windows\\Temp\\alloy-installer-windows-amd64.exe /S"
+        args:
+          creates: "{{ alloy_install_dir }}\\alloy.exe"
+        when: not alloy_installed.stat.exists
+
+
+      - name: create needed directories 1
+        ansible.windows.win_file:
+          path: 'C:\metrics'
+          state: directory
+
+      - name: create needed directories 2
+        ansible.windows.win_file:
+          path: 'C:\scripts'
+          state: directory
+
+      - name: Create config file
+        win_copy:
+          dest: "{{ alloy_config_path }}"
+          content: "{{ alloy_config_content }}"
+          force: yes
+
+      - name: Ensure Alloy service is running
+        win_service:
+          name: "{{ alloy_service_name }}"
+          state: restarted
+          start_mode: auto
+
+      - name: Clean up installer files
+        block:
+          - name: Remove installer zip
+            win_file:
+              path: "C:\\Windows\\Temp\\alloy-installer-{{ alloy_version }}.zip"
+              state: absent
+
+          - name: Remove extracted installer
+            win_file:
+              path: "C:\\Windows\\Temp\\alloy-installer-windows-amd64.exe"
+              state: absent
+        when: not alloy_installed.stat.exists

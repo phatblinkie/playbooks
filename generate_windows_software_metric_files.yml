@@ -1,0 +1,22 @@
+---
+  - name: Generate Windows software metric files
+    hosts: all
+    gather_facts: yes
+    vars:
+      get_installed_software_path: "C:\\scripts\\get_installed_software.ps1"
+      # this gathers installed software and installed updates and writes them to a metrics file for grafana
+      # this also gathers the windows update history and writes it to a metrics file for grafana
+      get_windows_update_output: "C:\\scripts\\check_windows_updates.ps1"
+      # this checks for pending updates and writes them to a metrics file for grafana
+
+    tasks:
+      - name: execute powershell software exporter
+        win_shell: "{{ get_installed_software_path }}"
+
+      - name: Execute Windows Update checking script
+        win_shell: "{{ get_windows_update_output }}"
+        register: update_check
+
+      - name: Display update check results
+        debug:
+          msg: "{{ update_check.stdout_lines | join('\n') }}"

@@ -1,0 +1,35 @@
+# HELP windows_software_compliance Software compliance status
+# TYPE windows_software_compliance gauge
+{% for item in software_results %}
+windows_software_compliance{name="{{ item.name }}", required_version="{{ item.required_version }}", installed_version="{{ item.installed_version }}"} {% if item.name_match %}2{% elif item.compliant %}1{% else %}0{% endif %}
+
+{% endfor %}
+
+# HELP windows_software_compliance_summary Summary of software compliance status
+# TYPE windows_software_compliance_summary gauge
+windows_software_compliance_summary{status="compliant"} {{ compliant_count }}
+windows_software_compliance_summary{status="non_compliant"} {{ non_compliant_count }}
+windows_software_compliance_summary{status="missing"} {{ missing_count }}
+windows_software_compliance_summary{status="name_match"} {{ name_match_count }}
+
+# HELP windows_update_compliance_test Windows Update compliance status
+# TYPE windows_update_compliance_test gauge
+{% for item in update_results %}
+windows_update_compliance_test{title="{{ item.title }}", required_operation="{{ item.required_operation }}", found_operation="{{ item.found_operation }}", required_status="{{ item.required_status }}", found_status="{{ item.found_status }}", guid="{{ item.unique_number }}"} {% if item.compliant %}1{% else %}0{% endif %}
+
+{% endfor %}
+
+# HELP windows_update_compliance_summary Summary of update compliance status
+# TYPE windows_update_compliance_summary gauge
+windows_update_compliance_summary{status="compliant"} {{ update_results | selectattr('compliant') | list | count }}
+windows_update_compliance_summary{status="non_compliant"} {{ update_results | rejectattr('compliant') | selectattr('found') | list | count }}
+windows_update_compliance_summary{status="missing"} {{ update_results | rejectattr('found') | list | count }}
+
+# HELP windows_system_compliance_status Overall system compliance status
+# TYPE windows_system_compliance_status gauge
+windows_system_compliance_status{type="software_compliant"} {{ compliant_count }}
+windows_system_compliance_status{type="software_non_compliant"} {{ non_compliant_count }}
+windows_system_compliance_status{type="update_compliant"} {{ update_results | selectattr('compliant') | list | count }}
+windows_system_compliance_status{type="update_non_compliant"} {{ update_results | rejectattr('compliant') | selectattr('found') | list | count }}
+
+windows_system_compliance_status_combined{software_compliant="{{ compliant_count }}",software_non_compliant="{{ non_compliant_count }}",software_missing="{{ missing_count }}",software_name_match="{{ name_match_count }}",update_compliant="{{ update_results | selectattr('compliant') | list | count }}",update_non_compliant="{{ update_results | rejectattr('compliant') | selectattr('found') | list | count }}",update_missing="{{ update_results | rejectattr('found') | list | count }}"} 1

@@ -1,0 +1,11 @@
+---
+- hosts: win
+  tasks:
+    - name: Install Firefox
+      win_package:
+        path: '\\164.225.186.92\software\Firefox Setup 124.0.2.msi'
+        state: present
+      vars:
+        url_username: '.\share'
+        url_password: DFyuqwhjty34JK@#23@#
+

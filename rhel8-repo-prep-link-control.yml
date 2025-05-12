@@ -1,0 +1,70 @@
+---
+- hosts: Link_Control
+  gather_facts: true
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  tasks:
+   - name: Create root ans Directory
+     ansible.builtin.file:
+       path: /ansRepos
+       state: directory
+       mode: '0755'
+     become: yes
+
+   - name: Create Base Repo Directory
+     ansible.builtin.file:
+       path: /ansRepos/rhel8base
+       state: directory
+       mode: '0755'
+     become: yes
+
+   - name: Create App Repo Directory
+     ansible.builtin.file:
+       path: /ansRepos/rhel8apps
+       state: directory
+       mode: '0755'
+     become: yes
+
+   - name: Mount base repo NFS volume
+     ansible.posix.mount:
+       src: 164.225.186.89:/rhel8repo/rhel-8-for-x86_64-baseos-rpms
+       path: /ansRepos/rhel8base
+       opts: rw,sync,hard
+       boot: false
+       state: mounted
+       fstype: nfs
+     become: yes
+
+   - name: Mount app repo NFS volume
+     ansible.posix.mount:
+       src: 164.225.186.89:/rhel8repo/rhel-8-for-x86_64-appstream-rpms
+       path: /ansRepos/rhel8apps
+       opts: rw,sync,hard
+       boot: false
+       state: mounted
+       fstype: nfs
+     become: yes
+
+   - name: Create Base Repo File
+     ansible.builtin.copy:
+       dest: /etc/yum.repos.d/base.repo
+       content: |
+         [Base-Repo]
+         name = BaseOS Red Hat Enterprise Linux 8 for x86_64
+         baseurl = file:///ansRepos/rhel8base/
+         enabled = 1
+         gpgcheck = 0
+     become: yes
+
+   - name: Create App Repo File
+     ansible.builtin.copy:
+       dest: /etc/yum.repos.d/app.repo
+       content: |
+         [App-Repo]
+         name = Appstream Red Hat Enterprise Linux 8 for x86_64
+         baseurl = file:///ansRepos/rhel8apps/
+         enabled = 1
+         gpgcheck = 0
+     become: yes
+

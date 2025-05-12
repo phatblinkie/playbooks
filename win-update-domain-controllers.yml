@@ -1,0 +1,15 @@
+---
+- hosts: Domain_Controllers
+  tasks:
+    - name: Update Domain Controllers
+      ansible.windows.win_updates:
+        category_names:
+          - CriticalUpdates
+          - DefinitionUpdates
+          - SecurityUpdates
+          - Updates
+        log_path: c:\ansible_wu1.txt
+        reboot: true
+        reboot_timeout: 600
+
+

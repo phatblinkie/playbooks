@@ -1,0 +1,21 @@
+---
+ungrouped:
+  hosts:
+    green.example.com:
+      ansible_host:               10.0.101.100
+    blue.example.com:
+    192.168.100.1:
+    192.168.100.10:
+
+win:
+  hosts:
+    172.21.184.10:
+    172.21.184.11:
+  vars:
+    ansible_connection:                    winrm
+    ansible_user:                          forward.la
+    ansible_password:                      DFyuqwhjty34JK@#23@#
+    ansible_winrm_transport:               basic
+    ansible_winrm_server_cert_validation:  ignore
+    ansible_port:                          5985
+

@@ -1,0 +1,11 @@
+---
+- hosts: Link_Control
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+  tasks:
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: true
+      become: true

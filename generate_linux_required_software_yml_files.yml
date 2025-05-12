@@ -1,0 +1,96 @@
+---
+- name: Generate and store Linux software inventory
+  hosts: all
+  become: yes
+  gather_facts: no
+  vars:
+    remote_metrics_path: "/var/lib/node_exporter/textfile_collector/linux_software_metrics.prom"
+    remote_output_dir_node: "/var/lib/node_exporter/textfile_collector"
+    remote_output_dir: "/tmp/software_inventory"
+    output_filename: "{{ inventory_hostname }}_required_software.yml"
+    local_output_dir: "/home/admin/aap/controller/data/projects/playbooks-main/vars"
+    generate_software_compliance_yml_file_path: "/usr/local/bin/generate_software_compliance_yml_file.sh"
+
+  tasks:
+    # Verify prerequisites
+    - name: Verify metrics directory exists
+      ansible.builtin.stat:
+        path: "{{ remote_output_dir }}"
+      register: metrics_dir
+
+    - name: Verify metrics file exists
+      ansible.builtin.stat:
+        path: "{{ remote_metrics_path }}"
+      register: remote_metrics
+      when: metrics_dir.stat.exists
+
+    - name: Generate software inventory file and available updates
+      ansible.builtin.shell: "{{ generate_software_compliance_yml_file_path }}"
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+      register: generation_result
+      changed_when: generation_result.rc == 0
+
+    # Prepare controller storage
+    - name: Ensure controller directory exists
+      ansible.builtin.file:
+        path: "{{ local_output_dir }}"
+        state: directory
+        mode: '0755'
+      delegate_to: AAP
+      run_once: true
+
+    # Transfer to controller
+    - name: Load file content into memory
+      ansible.builtin.shell: |
+        cat "{{ remote_output_dir_node }}/{{ output_filename }}"
+      register: file_content
+      delegate_to: "{{ inventory_hostname }}"
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - generation_result.rc == 0
+      changed_when: false
+
+    - name: Store file on controller
+      ansible.builtin.copy:
+        content: "{{ file_content.stdout }}"
+        dest: "{{ local_output_dir }}/{{ output_filename }}"
+        mode: '0644'
+      delegate_to: AAP
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - file_content.stdout is defined
+
+    # Verification and reporting
+    - name: Verify controller file
+      ansible.builtin.stat:
+        path: "{{ local_output_dir }}/{{ output_filename }}"
+      register: stored_file
+      delegate_to: AAP
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+
+    - name: Display results
+      debug:
+        msg: |
+          Software inventory generated:
+          - Linux Host path: {{ remote_output_dir_node }}/{{ output_filename }}
+          - Controller path: {{ local_output_dir }}/{{ output_filename }}
+          - File size: {{ stored_file.stat.size | default('0') }} bytes
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - stored_file.stat.exists
+
+    # Fixed error handling task
+    - name: Handle missing components
+      debug:
+        msg: "{% if not metrics_dir.stat.exists %}Error: Metrics directory missing at {{ remote_output_dir }}{% elif not remote_metrics.stat.exists %}Error: Metrics file missing at {{ remote_metrics_path }}{% else %}Error: Unknown issue during processing{% endif %}"
+      when: >
+        (not metrics_dir.stat.exists) or
+        (not remote_metrics.stat.exists) or
+        (generation_result is defined and generation_result.rc != 0)

@@ -1,0 +1,135 @@
+---
+- name: Check software and update compliance against requirements
+  hosts: all
+  gather_facts: no
+  become: true
+  vars_files:
+    - "vars/{{ inventory_hostname }}_required_software.yml"
+
+  vars:
+    ansible_filter_plugins: "{{ playbook_dir }}/filter_plugins"
+    remote_metrics_software_path: "/var/lib/node_exporter/textfile_collector/linux_software_metrics.prom"
+    remote_compliance_path: "/var/lib/node_exporter/textfile_collector/software_compliance.prom"
+    remote_system_version_path: "/var/lib/node_exporter/textfile_collector/system_version.prom"
+    local_metrics_dir: "/var/tmp/ans/ansible_metrics"
+    system_patch_version: "1.2.3"
+
+  tasks:
+    - name: Create local metrics directory
+      ansible.builtin.file:
+        path: "{{ local_metrics_dir }}"
+        state: directory
+      delegate_to: localhost
+      run_once: true
+
+    # Check and transfer software metrics
+    - name: Check if remote software metrics file exists
+      ansible.builtin.stat:
+        path: "{{ remote_metrics_software_path }}"
+      register: remote_software_metrics
+
+    - name: Transfer software metrics file to controller
+      ansible.builtin.shell: |
+        cat "{{ remote_metrics_software_path }}"
+      register: software_metrics_content
+      when: remote_software_metrics.stat.exists
+      changed_when: false
+
+    - name: Save transferred software metrics locally
+      ansible.builtin.copy:
+        content: "{{ software_metrics_content.stdout }}"
+        dest: "{{ local_metrics_dir }}/software_metrics.prom"
+        mode: '0644'
+      delegate_to: localhost
+      when: remote_software_metrics.stat.exists
+
+#    - name: Debug stuff
+#      debug:
+#        msg:
+#          Software Metrics:
+#            Content: "{{ software_metrics_content.stdout if remote_software_metrics.stat.exists else 'No content' }}"
+
+    - name: Run software compliance check
+      set_fact:
+        software_compliance_results: >-
+          {{ required_software | default([]) |
+          linux_check_compliance(
+            metrics_content=software_metrics_content.stdout if remote_software_metrics.stat.exists else None,
+            metrics_path=local_metrics_dir+'/linux_software_metrics.prom' if remote_software_metrics.stat.exists else None,
+            check_type='software'
+          ) }}
+
+    # Generate combined results
+    - name: Combine compliance results
+      set_fact:
+        combined_compliance_results: >-
+          {{
+            {
+              'software': software_compliance_results,
+              'timestamp': lookup('pipe', 'date -Iseconds'),
+              'patch_version': system_patch_version
+            }
+          }}
+
+    - name: Generate compliance metrics file on Linux host
+      ansible.builtin.template:
+        src: templates/linux_metrics_template.j2
+        dest: "{{ remote_compliance_path }}"
+      vars:
+        software_results: "{{ combined_compliance_results.software.results }}"
+        compliant_count: "{{ combined_compliance_results.software.counts.compliant }}"
+        non_compliant_count: "{{ combined_compliance_results.software.counts.non_compliant }}"
+        missing_count: "{{ combined_compliance_results.software.counts.missing }}"
+
+    - name: Debug compliance status before version file generation
+      debug:
+        msg: |
+          Software Compliance:
+            Compliant: {{ software_compliance_results.counts.compliant }}
+            Non-Compliant: {{ software_compliance_results.counts.non_compliant }}
+            Missing: {{ software_compliance_results.counts.missing }}
+          System Version File Will Be Generated: {{
+            software_compliance_results.counts.non_compliant == 0 and
+            software_compliance_results.counts.missing == 0 and
+            software_compliance_results.counts.compliant > 0
+          }}
+
+    - name: Write system patch version when fully compliant
+      ansible.builtin.shell: |
+        echo "# HELP system_patch_version Current system patch version
+        # TYPE system_patch_version gauge
+        system_patch_version{version=\"{{ system_patch_version }}\"} 1
+        " > "{{ remote_system_version_path }}"
+      when: >
+        software_compliance_results.counts.non_compliant == 0 and
+        software_compliance_results.counts.missing == 0 and
+        software_compliance_results.counts.compliant > 0
+
+    - name: Write alternative output when not fully compliant
+      ansible.builtin.shell: |
+        echo "# HELP system_patch_version Current system patch version
+        # TYPE system_patch_version gauge
+        system_patch_version{version=\"Not Compliant\"} 0
+        " > "{{ remote_system_version_path }}"
+      when: >
+        software_compliance_results.counts.non_compliant != 0 or
+        software_compliance_results.counts.missing != 0 or
+        software_compliance_results.counts.compliant == 0
+
+    - name: Show version file generation status
+      debug:
+        msg: "System version file was generated: version={{ system_patch_version }}"
+      when: >
+        software_compliance_results.counts.non_compliant == 0 and
+        software_compliance_results.counts.missing == 0 and
+        software_compliance_results.counts.compliant > 0
+
+    - name: Show compliance summary
+      debug:
+        msg: |
+          Compliance Report - Generated at: {{ combined_compliance_results.timestamp }}
+
+          SOFTWARE:
+          Compliant: {{ combined_compliance_results.software.counts.compliant }}
+          Non-Compliant: {{ combined_compliance_results.software.counts.non_compliant }}
+          Missing: {{ combined_compliance_results.software.counts.missing }}

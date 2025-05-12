@@ -1,0 +1,22 @@
+ogs_vms_list:
+  - "DC1 (TOGS-1)"
+  - DC2 (TOGS-1)
+  - Enterprise-CA (TOGS)
+  - FMV
+  - HBSS
+  - ANS-SYSCON (Syscon for Automation)
+  - VANTAGE
+  - viewcon
+  - vsql
+  - NETCFGSVR1 (TGS J114)
+  - vNIA1 (TGS J114)
+  - vNIA2(TGS j114)
+  - vNIA4 (TGS J114)
+  - VADER-5.5
+  - Ansible-Demo-Cntrl (Auto-Lab)(Centos 8)
+  - Ansible-Demo-Workstation (Auto-Lab)
+  - NETCFGSVRX (Auto-Lab) (TGS J114)
+  - VMFWS3 (TGS LOT G) (Auto-Lab)
+  - VMFWS4 (TGS LOT G) (Auto-Lab)
+  - VMFWS5 (TGS LOT G) (Auto-Lab)
+  - VMFWS11 (Win11 Test Box)(Auto-Lab)

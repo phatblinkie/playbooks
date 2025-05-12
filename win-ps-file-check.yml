@@ -1,0 +1,11 @@
+---
+- hosts: win
+  become: yes
+  become_method: runas
+  become_user: ansible.la
+  gather_facts: False
+  vars:
+    ansible_become_password: DFyuqwhjty34JK@#23@#
+  tasks:
+  - name: Run ps1 script in privileged mode
+    win_shell: 'c:\--Installs\BF-File-Demo.ps1'

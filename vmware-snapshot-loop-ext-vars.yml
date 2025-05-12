@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+    - name: Load vm names
+      include_vars: ogs_vms.yml
+
+    - name: Create VM Snapshots
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "{{ item }}"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      loop: "{{ ogs_vms_list }}"
+      delegate_to: localhost

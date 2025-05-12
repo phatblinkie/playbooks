@@ -1,0 +1,11 @@
+---
+- hosts: win
+  tasks:
+    - name: Install Chrome
+      win_package:
+        path: http://164.225.186.92/software/GoogleChromeStandaloneEnterprise64.msi
+        arguments:
+          - /qn
+          - /norestart
+        state: present
+

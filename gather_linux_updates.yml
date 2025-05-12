@@ -1,0 +1,50 @@
+---
+- name: Gather and Store Data of Available and Installed Linux Updates
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Get Available Updates
+      shell: dnf list --updates | awk '/Available Upgrades/ {flag=1; next} flag'
+      register: pending_updates
+      ignore_errors: yes
+      failed_when: false
+      become: yes
+
+    - name: Get Installed Updates
+      shell: dnf list installed | awk '/Installed Packages/ {flag=1; next} flag'
+      register: installed_updates
+      become: yes
+
+    - name: Prepare data for storage
+      set_fact:
+        updates_info: {
+          "pending_updates": "{{ pending_updates.stdout_lines | to_json }}",
+          "installed_updates": "{{ installed_updates.stdout_lines | to_json }}",
+          "project_id": 2,
+          "task_id": "{{ awx_job_id }}",
+          "hostname": "{{ inventory_hostname }}"
+        }
+
+    - name: Send updates data to database
+      ansible.builtin.uri:
+        url: "http://172.21.184.27:8088/post/store_linux_updates_sqlite.php"
+        method: POST
+        body_format: json
+        body: "{{ updates_info }}"
+        headers:
+          Content-Type: application/json
+        status_code: 200
+        return_content: True
+        timeout: 120  # Increase the timeout to 120 seconds for slow connections
+      register: postoutput
+      delegate_to: localhost
+      check_mode: no
+
+    - name: Show database post status
+      debug:
+        msg:
+          - "Data sent to database"
+          - "Status: {{ postoutput.json.status }}"
+          - "Message: {{ postoutput.json.message }}"
+          - "Inserted: {{ postoutput.json.inserted }}"
+          - "Updated: {{ postoutput.json.updated }}"

@@ -1,0 +1,15 @@
+---
+- name: Display Facts
+  hosts: Link_Control
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  gather_facts: yes
+  tasks:
+  - name: Print all available facts
+    ansible.builtin.debug:
+      var: ansible_facts.hostname
+  - name: Print all available facts2
+    ansible.builtin.debug:
+      var: ansible_facts
+

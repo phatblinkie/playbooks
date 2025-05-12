@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+    - name: Load vm names
+      include_vars: ogs_vms.yml
+      
+    - name: Load Connection Vars
+      include_vars: ogs_connect_vars.yml
+      
+    - name: Create snapshots
+      community.vmware.vmware_guest_snapshot:
+        hostname: "{{ ogs_vc_hostname }}"
+        username: "{{ ogs_vc_username }}"
+        password: "{{ ogs_vc_password }}"
+        validate_certs: no
+        datacenter: "{{ ogs_vc_datacenter }}"
+        folder: "{{ ogs_vc_folder }}"
+        name: "{{ item }}"
+        state: present
+        snapshot_name: "{{ ogs_vc_snapshot_name }}"
+        description: "{{ ogs_vc_snap_description }}"
+        quiesce: true
+        memory_dump: true
+      loop: "{{ ogs_vms_list }}"
+      delegate_to: localhost
+

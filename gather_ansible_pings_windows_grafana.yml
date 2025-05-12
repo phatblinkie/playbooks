@@ -1,0 +1,135 @@
+---
+- name: Windows Ansible Ping Check with Accurate Outage Tracking
+  hosts: all
+  gather_facts: no
+  vars:
+    - metrics_file: "/var/lib/node_exporter/textfile_collector/host_metrics_windows.prom"
+
+  tasks:
+    # Initialize default values
+    - name: Initialize tracking variables
+      set_fact:
+        ping_status: "pending"
+        ping_value: 0
+        outage_start_timestamp: "0"
+        last_up_timestamp: "0"
+      delegate_to: localhost
+
+    # Get current timestamp
+    - name: Set timestamp fact
+      set_fact:
+        metrics_timestamp: "{{ lookup('pipe', 'date +%s') }}"
+      delegate_to: localhost
+      run_once: true
+
+    # PHASE 1: Check for existing metrics file
+    - name: Check if metrics file exists
+      ansible.builtin.stat:
+        path: "{{ metrics_file }}"
+      register: metrics_file_stat
+      delegate_to: Grafana
+      run_once: true
+      become: true
+
+    # PHASE 2: Host IP resolution (unchanged)
+    - name: Check if inventory_hostname is an IP address
+      set_fact:
+        is_ip_address: "{{ inventory_hostname | regex_search('^\\d+\\.\\d+\\.\\d+\\.\\d+$') is not none }}"
+      delegate_to: localhost
+
+    - name: Resolve IP address
+      shell: getent ahostsv4 {{ inventory_hostname }} | head -n 1 | awk '{print $1}'
+      register: ip_lookup
+      when: not is_ip_address
+      delegate_to: localhost
+      ignore_errors: yes
+
+    - name: Set IP address fact
+      set_fact:
+        host_ip: "{{ inventory_hostname if is_ip_address else ip_lookup.stdout | default(inventory_hostname) | trim }}"
+      delegate_to: localhost
+
+    # PHASE 3: Connection test with proper outage tracking
+    - name: Test Windows connectivity
+      block:
+        - name: Wait for WinRM connection
+          wait_for_connection:
+            delay: 1
+            timeout: 10
+
+        - name: Execute ping
+          win_ping:
+          register: ansible_ping_output
+
+        - name: Mark success
+          set_fact:
+            ping_status: "success"
+            ping_value: 1
+            last_up_timestamp: "{{ metrics_timestamp }}"
+            outage_start_timestamp: "0"
+
+      rescue:
+        - name: Check for existing outage record
+          ansible.builtin.shell: |
+            set -o pipefail
+            if [ -f "{{ metrics_file }}" ]; then
+              ( grep -oP 'node_outage_start_seconds{hostname="{{ inventory_hostname }}".*?}\s+\K\d+' "{{ metrics_file }}" | tr -d '[:space:]' ) || echo "NO_EXISTING_OUTAGE"
+            else
+              echo "NO_METRICS_FILE"
+            fi
+          register: existing_outage_check
+          delegate_to: Grafana
+          changed_when: false
+          ignore_errors: yes
+          become: true
+
+        - name: Set proper outage timestamp
+          set_fact:
+            ping_status: "failed"
+            ping_value: 0
+            outage_start_timestamp: >-
+              {% if existing_outage_check.stdout == "NO_METRICS_FILE" or existing_outage_check.stdout == "NO_EXISTING_OUTAGE" %}
+              {{ metrics_timestamp | trim }}
+              {% else %}
+              {{ existing_outage_check.stdout | trim | int }}
+              {% endif %}
+          delegate_to: localhost
+
+    # PHASE 4: Generate and upload metrics
+    - name: Create metrics content
+      set_fact:
+        metrics_content: |
+          # HELP node_up Host availability (1=up, 0=down)
+          # TYPE node_up gauge
+          # HELP node_outage_start_seconds Epoch timestamp when host first went down
+          # TYPE node_outage_start_seconds gauge
+          # HELP node_last_up_seconds Epoch timestamp when host was last up
+          # TYPE node_last_up_seconds gauge
+          {% for host in ansible_play_hosts %}
+          node_up{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].ping_value }}
+          {% if hostvars[host].ping_status == "failed" %}
+          node_outage_start_seconds{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].outage_start_timestamp | trim }}
+          {% endif %}
+          {% if hostvars[host].ping_status == "success" %}
+          node_last_up_seconds{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].last_up_timestamp | trim}}
+          {% endif %}
+          {% endfor %}
+      delegate_to: localhost
+      run_once: true
+
+    - name: Upload metrics directly to target host
+      ansible.builtin.shell: |
+        # Create content directly on target host
+        cat << 'EOF' > "{{ metrics_file }}.tmp"
+        {{ metrics_content }}
+        EOF
+        # Atomic move
+        mv -f "{{ metrics_file }}.tmp" "{{ metrics_file }}"
+        # Set permissions
+        chmod 0644 "{{ metrics_file }}"
+
+      args:
+        executable: /bin/bash
+      delegate_to: Grafana
+      run_once: true
+      become: true

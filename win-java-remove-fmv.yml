@@ -1,0 +1,25 @@
+---
+- hosts: "{{ target }}"
+  tasks:
+    - name: Stop OpenFire Service
+      ansible.windows.win_service:
+        name: OpenFire
+        state: stopped  
+    - name: Uninstall Java x64 8-361
+      win_package:
+        product_id: '{26A24AE4-039D-4CA4-87B4-2F64180361F0}'
+        state: absent
+    - name: Uninstall Java x32 8-361
+      win_package:
+        product_id: '{26A24AE4-039D-4CA4-87B4-2F32180361F0}'
+        state: absent
+    - name: Uninstall Java x64 8-421
+      win_package:
+        product_id: '{77924AE4-039E-4CA4-87B4-2F64180421F0}'
+        state: absent
+    - name: Uninstall Java x32 8-421
+      win_package:
+        product_id: '{77924AE4-039E-4CA4-87B4-2F32180421F0}'
+        state: absent
+
+

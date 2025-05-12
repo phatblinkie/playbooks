@@ -1,0 +1,10 @@
+---
+- hosts: VNIA4
+  gather_facts: true
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  tasks:
+   - name: Ping
+     ansible.builtin.ping:
+

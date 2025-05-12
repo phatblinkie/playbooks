@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+  - name: Deploy VM from OVA
+    community.vmware.vmware_deploy_ovf:
+      hostname: vcsa.infra.local
+      username: infra\ansible-test
+      password: DFyuqwhjty34JK@#23@#
+      validate_certs: no
+      name: test-turnkey-ansible
+      datacenter: INFRA
+      cluster: INFRA_Yyotta
+      datastore: ESXI_Data_1
+      disk_provisioning: thin
+      networks: 
+        "bridged": "E-VLAN200_OGS_Prod-vds"
+      ovf: /templates/turnkey-ansible-16.1-buster-amd64.ova 
+      allow_duplicates: no
+      power_on: no
+      fail_on_spec_warnings: yes
+      wait: yes
+      wait_for_ip_address: yes
+    delegate_to: localhost

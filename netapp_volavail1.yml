@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+       is_hello1:
+         stdout: "nonce"
+  tasks:
+    - name: Read volume size
+      shell: df --output=avail /mnt/test-netapp/ | sed 1d
+      register: testvol_avail
+
+    - name: Set size as fact
+      set_fact:
+        netappsizebl: "{{ testvol_avail.stdout | float }}"
+
+    - name: Convert to MB
+      set_fact:
+        netappsizemb: "{{ (netappsizebl)|float / 1024 }}"    
+
+    - debug: msg="{{ netappsizemb }}"

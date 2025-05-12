@@ -1,0 +1,13 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Install or Update Chrome
+      win_package:
+        path: http://164.225.186.93/software/GoogleChromeStandaloneEnterprise64.msi
+        product_id: '{53B568B1-41B1-3D05-B14F-FC57035DA908}'
+        arguments:
+          - /qn
+          - /norestart
+        state: present
+

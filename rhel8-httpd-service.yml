@@ -1,0 +1,15 @@
+---
+- hosts: rhel89
+  tasks:
+    - name: Install httpd (Apache2)
+      ansible.builtin.dnf:
+        name: "httpd"
+        state: latest
+      become: true
+    - name: Ensure httpd is enabled and started
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+        state: started
+      become: true
+

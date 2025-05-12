@@ -1,0 +1,11 @@
+---
+- hosts: Link_Control
+  gather_facts: false
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  tasks:
+   - name: Reboot Linux Systems
+     ansible.builtin.reboot:
+     become: yes
+

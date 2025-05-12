@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  collections:
+  - netapp.ontap
+  tasks:
+  - name: REST info module
+    na_ontap_rest_info:
+      gather_subset:
+        - cluster_node_info
+      fields:
+        - '*'
+      hostname: "netapp-cluster.infra.local"
+      username: "admin"
+      password: "default_PASSWORD_8675309"
+      https: true
+      validate_certs: false

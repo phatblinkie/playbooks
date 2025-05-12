@@ -1,0 +1,19 @@
+---
+- name: Modify NetApp Volume
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+  - name: Modify volume - REST
+    netapp.ontap.na_ontap_volume:
+      hostname: "172.21.184.28"
+      username: "admin"
+      password: "DFyuqwhjty34JK@#23@#"
+      https: true
+      validate_certs: false
+      use_rest: Always
+      state: present
+      name: test_vol1
+      vserver: "svm0"
+      aggregate_name: "netapp_sim2_01_FC_1"
+      size_unit: "mb"
+      size: 1024

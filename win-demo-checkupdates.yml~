@@ -1,0 +1,51 @@
+---
+#- hosts: win_hosts
+- hosts: win_hosts
+  tasks:
+    - name: Check for updates on windows systems
+      ansible.windows.win_updates:
+        category_names:
+          - CriticalUpdates
+          - DefinitionUpdates
+          - SecurityUpdates
+          - Updates
+        log_path: c:\ansible_wu-check.txt
+        reboot: false
+        reboot_timeout: 900
+        state: searched
+      register: update_result
+
+    - name: Set default values for task_id and project_id if they are blank or null
+      ansible.builtin.set_fact:
+        task_id: "{{ semaphore_vars.task_details.id | default(0) }}"
+        project_id: "{{ semaphore_vars.task_details.project_id | default(0) }}"
+
+    - name: Set other custom facts in result
+      ansible.builtin.set_fact:
+        combined_results: "{{ update_result | combine({'hostname': ansible_hostname, 'task_id': task_id, 'project_id': project_id}) }}"
+
+    - name: Display Results
+      ansible.builtin.debug:
+        msg:
+          - "Patching Check Status"
+          - "{{ combined_results }}"
+
+    - name: Send facts to database
+      ansible.builtin.uri:
+        url: "http://127.0.0.1/post/store_windows_patching_update.php"
+        method: POST
+        body_format: json
+        body: "{{ combined_results }}"
+        headers:
+          Content-Type: application/json
+        status_code: 200
+        return_content: True
+      register: postoutput1
+      delegate_to: localhost
+      check_mode: no
+
+    - name: Display db Post Status
+      ansible.builtin.debug:
+        msg:
+          - "Patching Status"
+          - "{{ postoutput1 }}"

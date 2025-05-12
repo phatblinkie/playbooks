@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+    - name: Create a snapshot of DC1
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "{{ item }}"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      loop:
+        - VANTAGE
+        - viewcon
+      delegate_to: localhost

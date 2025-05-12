@@ -1,0 +1,15 @@
+# HELP node_up Host availability (1=up, 0=down)
+# TYPE node_up gauge
+# HELP node_outage_start_seconds Epoch timestamp when host first went down
+# TYPE node_outage_start_seconds gauge
+# HELP node_last_up_seconds Epoch timestamp when host was last up
+# TYPE node_last_up_seconds gauge
+{% for host in ansible_play_hosts %}
+node_up{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].ping_value | default(0) }}
+{% if hostvars[host].ping_status == "failed" %}
+node_outage_start_seconds{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].outage_start_timestamp | default(0) }}
+{% endif %}
+{% if hostvars[host].ping_status == "success" %}
+node_last_up_seconds{hostname="{{ host }}",ip="{{ hostvars[host].host_ip }}"} {{ hostvars[host].last_up_timestamp | default(0) }}
+{% endif %}
+{% endfor %}

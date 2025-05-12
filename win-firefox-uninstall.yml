@@ -1,0 +1,9 @@
+---
+- hosts: win
+  tasks:
+    - name: Uninstall Firefox
+      win_package:
+        path: C:\Program Files\Mozilla Firefox\uninstall\helper.exe
+        product_id: Mozilla Firefox 124.0.2 (x64 en-US)
+        state: absent
+

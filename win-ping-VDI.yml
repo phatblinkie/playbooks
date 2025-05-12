@@ -1,0 +1,6 @@
+---
+- hosts: VDI_Servers
+  tasks:
+   - name: Ping Windows Hosts
+     win_ping:
+

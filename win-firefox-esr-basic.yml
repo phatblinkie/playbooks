@@ -1,0 +1,10 @@
+---
+- hosts: win
+  tasks:
+    - name: Install Firefox
+      win_package:
+        path: http://164.225.186.92/software/Firefox%20Setup%20115.14.0esr.exe
+        product_id: Mozilla Firefox 115.14.0 ESR (x64 en-US)
+        arguments: /S
+        state: present
+

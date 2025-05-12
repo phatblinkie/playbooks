@@ -1,0 +1,9 @@
+---
+- hosts: win
+  tasks:
+    - name: Install Firefox
+      win_package:
+        path: http://164.225.186.92/FirefoxSetup124.0.2.msi
+        product_id: Mozilla Firefox 124.0.2 (x64 en-US)
+        state: present
+

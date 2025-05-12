@@ -1,0 +1,5 @@
+#login to registry to pull fresh image
+podman login registry.redhat.io
+
+#after logging in, run the following command from this directory (dont be root user)
+ansible-builder build --tag ogs-ee

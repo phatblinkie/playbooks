@@ -1,0 +1,13 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Install or Update 7-Zip
+      ansible.windows.win_package:
+        path: http://164.225.186.93/software/7z2409-x64.exe
+        product_id: 7-Zip
+        creates_path: C:\Program Files\7-Zip\7z.exe
+        creates_version: 24.09
+        arguments: /S
+        state: present
+

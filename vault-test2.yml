@@ -1,0 +1,9 @@
+---
+- hosts: Link_Control:VNIA4:linux_hosts
+  gather_facts: false
+  tasks:
+    - name: Display group_var vaulted values
+      ansible.builtin.debug:
+        msg:
+          - "become pw: {{ ansible_become_password }}"
+          - "ssh pw: {{ ansible_ssh_password }}"

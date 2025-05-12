@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+    - name: Create a snapshot of DC1
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "DC1 (TOGS-1)"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost
+    - name: Create a snapshot of DC2
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "DC2 (TOGS-1)"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost
+    - name: Create a snapshot of Enterprise-CA (TOGS)
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "Enterprise-CA (TOGS)"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost
+    - name: Create a snapshot of FMV
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "FMV"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost
+    - name: Create a snapshot of HBSS
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: "/Labs/R/TGS LOT G"
+        name: "HBSS"
+        state: present
+        snapshot_name: "PRE-Sept-Patch"
+        description: PRE-Sept-Patch
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost

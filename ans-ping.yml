@@ -1,0 +1,9 @@
+---
+- hosts: rhelogs
+  gather_facts: true
+  vars:
+    - ansible_remote_tmp: /usr/local/bin/tmp
+  tasks:
+   - name: Ping
+     ansible.builtin.ping:
+

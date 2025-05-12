@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+    - name: Create a snapshot
+      community.vmware.vmware_guest_snapshot:
+        hostname: vcsa.infra.local
+        username: ansible-test@infra.local
+        password: DFyuqwhjty34JK@#23@#
+        validate_certs: no
+        datacenter: INFRA
+        folder: /Labs/DEV/Automation-Lab/Ansible
+        name: "onsite-test-demo-clone (Auto Lab)"
+        state: present
+        snapshot_name: "snap2-mem"
+        description: snap2_description
+        quiesce: true
+        memory_dump: true
+      delegate_to: localhost

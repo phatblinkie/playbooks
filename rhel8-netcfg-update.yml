@@ -1,0 +1,10 @@
+---
+- hosts: rhelogs
+  vars:
+    - ansible_remote_tmp: /usr/local/bin/tmp
+  tasks:
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      become: true

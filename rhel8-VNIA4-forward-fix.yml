@@ -1,0 +1,14 @@
+---
+- hosts: VNIA4
+  gather_facts: true
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  tasks:
+   - name: Sysctl conf file
+     ansible.builtin.copy:
+       dest: /etc/sysctl.d/99-zCustom.conf
+       content: |
+         net.ipv4.conf.all.forwarding = 1
+     become: yes
+

@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: False
+  vars:
+  tasks:
+  - name: Create a VM from a template
+    vmware_guest:
+      hostname: vcsa.infra.local
+      username: ansible-test@infra.local
+      password: DFyuqwhjty34JK@#23@#
+      validate_certs: no
+      name: "onsite-test-demo-clone (Auto Lab)"
+      template:  test-turnkey-ansible
+      datacenter: INFRA
+      folder: /Labs/DEV/Automation-Lab/Ansible
+      state: poweredoff
+      cluster: INFRA_Yyotta
+    delegate_to: localhost

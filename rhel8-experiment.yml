@@ -1,0 +1,79 @@
+---
+- name: Display Facts
+  hosts: Link_Control
+  vars:
+    - ansible_remote_tmp: /var/tmp/ans
+    - host_key_checking: false
+  gather_facts: yes
+  tasks:
+    - name: Gather CPU usage
+      shell: awk '{print $2 * 100}' /proc/loadavg
+      register: cpu_usage
+    - name: Gather RAM Usage
+      shell: free | awk '/Mem:/ {print $3/$2*100 }'
+      register: ram_usage
+    - name: Gather Disk Space
+      shell: "df -h / | awk '/dev/ {print $5 }'"
+      register: disk_space
+    - name: Get frr status
+      shell: "systemctl status frr"
+      register: pimd_status
+      when: ansible_facts.hostname == "vnia1" or ansible_facts.hostname == "vnia2" or ansible_facts.hostname == "vnia14"
+
+    - name: Define pimd_status
+      debug:
+        msg: "Test"
+      vars:
+        bob: 'undefined'
+      when: ansible_facts.hostname == "netcfgsvr1"
+    - name: Start service frr, if not started
+      ansible.builtin.service:
+        name: frr
+        state: started
+      register: result    
+      when: ansible_facts.hostname == "vnia1" or ansible_facts.hostname == "vnia2" or ansible_facts.hostname == "vnia14"
+    - name: Start service jCon, if not started
+      ansible.builtin.service:
+        name: jCon
+        state: started
+      register: result
+      when: ansible_facts.hostname == "netcfgsvr1"
+
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+      when: ansible_facts.os_family == "RedHatx"
+    - name: Print service facts
+      ansible.builtin.debug:
+        var: ansible_facts.services.pimd.service
+      when: ansible_facts.os_family == "RedHatx"    
+    - name: Usage Stats
+      debug:
+        msg: 
+          - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
+          - "OS Family: {{ ansible_facts.os_family }}"
+          - "CPU Usage: {{ cpu_usage.stdout }}%"
+          - "RAM Usage: {{ ram_usage.stdout }}%"
+          - "Disk Space Used: {{ disk_space.stdout }}"
+          - "{{ cpu_usage }}"
+          - "Result: {{ result.changed }}"
+      ignore_errors:
+    - name: Send facts to database
+      ansible.builtin.uri:
+        url: "http://127.0.0.1/post/store_facts.php?taskid=1"
+        method: POST
+        body_format: json
+        body: "{{ cpu_usage }}"
+        headers:
+          Content-Type: application/json
+        status_code: 200
+        return_content: True
+      register: postoutput1
+      delegate_to: localhost
+
+    - name: Print status of posted message
+      ansible.builtin.debug:
+        msg:
+          - "Post output"
+          - "{{ postoutput1 }}"
+          - "{{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }} {{ cpu_usage.stdout }} {{ ram_usage.stdout }} {{ disk_space.stdout }}"
+

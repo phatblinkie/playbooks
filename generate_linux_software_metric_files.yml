@@ -1,0 +1,12 @@
+---
+  - name: Generate Windows software metric files
+    hosts: all
+    gather_facts: no
+    become: true
+    vars:
+      export_installed_software_path: "/usr/local/bin/export_installed_software.sh"
+
+    tasks:
+      - name: execute linux software exporter
+        shell: "{{ export_installed_software_path }}"
+        register: export_result

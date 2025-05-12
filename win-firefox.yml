@@ -1,0 +1,8 @@
+---
+- hosts: win
+  tasks:
+    - name: Install Firefox
+      win_package:
+        path: C:\--Installs\Firefox Setup 124.0.2.msi
+        state: present
+

@@ -1,0 +1,76 @@
+---
+- name: Gather and Store Historical Data of Installed Windows Updates
+  hosts: win_hosts
+  gather_facts: no
+  vars:
+    project_id: 2
+  tasks:
+    - name: Get Windows Update History
+      win_shell: |
+        $Session = New-Object -ComObject "Microsoft.Update.Session";
+        $Searcher = $Session.CreateUpdateSearcher();
+        $historyCount = $Searcher.GetTotalHistoryCount();
+        $Searcher.QueryHistory(0, $historyCount) | Select-Object @{
+            name="Date"; expression={$_.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")}
+        }, @{
+            name="Operation"; expression={switch($_.operation){
+                1 {"Installation"}; 2 {"Uninstallation"}; 3 {"Other"}
+            }}
+        }, @{
+            name="Status"; expression={switch($_.resultcode){
+                1 {"In Progress"}; 2 {"Succeeded"}; 3 {"Succeeded With Errors"};
+                4 {"Failed"}; 5 {"Aborted"}
+            }}
+        }, Title, @{
+            name="KB"; expression={
+                if ($_.title -match "KB\d{6,}") {
+                    $_.title -replace ".*(KB\d{6,}).*", '$1'
+                } else {
+                    $null
+                }
+            }
+        }, @{
+            name="PC"; expression={$env:computername}
+        } | ConvertTo-Json -Compress
+      register: update_history
+
+    - name: Prepare data for storage
+      set_fact:
+        combined_updates: {
+          "update_history": "{{ update_history.stdout | from_json }}",
+          "hostname": "{{ inventory_hostname }}",
+          "project_id": "{{ project_id }}"
+        }
+
+        #    - name: Save combined updates to file
+        #      copy:
+        #        content: "{{ combined_updates | to_nice_json }}"
+        #        dest: "/home/admin/repos/semaphore-ogs/combined_updates.json"
+        #      delegate_to: localhost
+
+    - name: Send historical data to database
+      ansible.builtin.uri:
+        url: "http://172.21.184.27:8088/post/store_windows_update_datanew_sqlite.php"
+        method: POST
+        body_format: json
+        body: "{{ combined_updates }}"
+        headers:
+          Content-Type: application/json
+        status_code: 200
+        return_content: True
+      register: postoutput
+      delegate_to: localhost
+      check_mode: no
+
+#    - name: Save post output to file
+#      copy:
+#        content: "{{ postoutput | to_nice_json }}"
+#        dest: "/home/admin/repos/semaphore-ogs/postoutput.json"
+#      delegate_to: localhost
+
+#    - name: Display database post status
+#      ansible.builtin.debug:
+#        msg:
+#          - "Data sent to database"
+#          - "{{ combined_updates }}"
+#          - "{{ postoutput }}"

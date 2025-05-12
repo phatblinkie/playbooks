@@ -1,0 +1,31 @@
+---
+- name: Create a VM from a template
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+  - name: Get NetApp info as Cluster Admin (Password Authentication)
+    netapp.ontap.na_ontap_rest_info:
+      hostname: "172.21.184.28"
+      username: "admin"
+      password: "DFyuqwhjty34JK@#23@#"
+      https: true
+      validate_certs: false
+      fields:
+      - 'uuid'
+      - 'name'
+      - 'space'
+      use_rest: Always
+      gather_subset:
+        - storage/volumes
+    register: ontap_info
+  - debug:
+      msg: "{{ ontap_info.ontap_info['storage/volumes']['records'] }}"
+  - name: run ontap cli command
+    netapp.ontap.na_ontap_rest_cli:
+      hostname: "172.21.184.28"
+      username: "admin"
+      password: "DFyuqwhjty34JK@#23@#"
+      command: 'volume?volume=Test1&fields=percent-used&pretty=false'
+      verb: 'GET'
+      use_rest: Always
+      validate_certs: false

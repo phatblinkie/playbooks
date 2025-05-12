@@ -1,0 +1,96 @@
+---
+  version: 3
+  build_arg_defaults:
+    ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: "-c"
+
+  images:
+    base_image:
+      name: registry.redhat.io/ansible-automation-platform-25/ee-supported-rhel9:latest
+
+  options:
+    package_manager_path: /usr/bin/microdnf
+  dependencies:
+    system:
+    - gcc
+    - systemd-devel
+    - libxml2-devel
+    - python3.11-devel
+    - krb5-devel
+    - python3-argcomplete
+    - python3-devel
+    - python3-perf
+    - python3-linux-procfs
+    - python3-cups
+    - python3-cairo
+    - python3-cffi
+    - python3-dbus
+    - python3-dasbus
+    - cairo-gobject
+    - cairomm
+    - cairo
+    - python3-gpg
+    - python3-gobject
+    - python3-idna
+    - python3-kmod
+    - python3-libcomps
+    - python3-lxml
+    - python3-nftables
+    - python3-pexpect
+    - python3-ply
+    - python3-policycoreutils
+    - python3-psutil
+    - python3-ptyprocess
+    - python3-pycparser
+    - python3-pycurl
+    - python3-pyparsing
+    - python3-pysocks
+    - python3-pyudev
+    - python3-pyyaml
+    - python3-requests
+    - python3-rpm
+    - python3-rtslib
+    - python3-resolvelib
+    - python3-setools
+    - python3-libselinux
+    - python3-six
+    - python3-subscription-manager-rhsm
+    - python3-systemd
+    - python3-urllib3
+    - python3-urwid
+    - targetcli
+
+    ansible_core:
+      package_pip: ansible-core
+    ansible_runner:
+      package_pip: ansible-runner
+    python: requirements.txt
+    galaxy:
+      collections:
+        - name: community.windows
+        - name: redhat.rhel_system_roles
+        - name: ansible.netcommon
+        - name: ansible.utils
+        - name: ansible.windows
+        - name: chocolatey.chocolatey
+        - name: cloud.common
+        - name: community.general
+        - name: community.mysql
+        - name: community.postgresql
+        - name: community.vmware
+        - name: community.windows
+        - name: community.zabbix
+        - name: containers.podman
+        - name: kubernetes.core
+        - name: microsoft.ad
+        - name: netapp.ontap
+        - name: vmware.vmware_rest
+
+  additional_build_steps:
+    append_base:
+      - RUN $PYCMD -m pip install -U pip
+    append_final:
+      - COPY --from=quay.io/ansible/receptor:devel /usr/bin/receptor /usr/bin/receptor
+      - RUN mkdir -p /var/run/receptor
+      - RUN git lfs install --system
+      # SymLink `python` -> `python3.11`
+      - RUN alternatives --install /usr/bin/python python /usr/bin/python3.11 311

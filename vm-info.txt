@@ -1,0 +1,3055 @@
+
+PLAY [localhost] ***************************************************************
+
+TASK [Get VM Info] *************************************************************
+ok: [localhost]
+
+TASK [Display VM Info] *********************************************************
+ok: [localhost] => {
+    "msg": [
+        "VM Info",
+        {
+            "changed": false,
+            "failed": false,
+            "instance": {
+                "_vimid": "vm-7319",
+                "_vimref": "vim.VirtualMachine:vm-7319",
+                "_vimtype": "vim.VirtualMachine",
+                "alarmActionsEnabled": true,
+                "availableField": [
+                    {
+                        "_vimtype": "vim.CustomFieldsManager.FieldDef",
+                        "fieldDefPrivileges": null,
+                        "fieldInstancePrivileges": null,
+                        "key": 101,
+                        "managedObjectType": "vim.VirtualMachine",
+                        "name": "Audited",
+                        "type": "str"
+                    }
+                ],
+                "capability": {
+                    "_vimtype": "vim.vm.Capability",
+                    "bootOptionsSupported": true,
+                    "bootRetryOptionsSupported": true,
+                    "changeModeDisksSupported": null,
+                    "changeTrackingSupported": true,
+                    "consolePreferencesSupported": false,
+                    "cpuFeatureMaskSupported": true,
+                    "disableSnapshotsSupported": false,
+                    "diskOnlySnapshotOnSuspendedVMSupported": true,
+                    "diskSharesSupported": true,
+                    "featureRequirementSupported": true,
+                    "guestAutoLockSupported": true,
+                    "hostBasedReplicationSupported": true,
+                    "lockSnapshotsSupported": true,
+                    "memoryReservationLockSupported": true,
+                    "memorySnapshotsSupported": true,
+                    "multipleCoresPerSocketSupported": true,
+                    "multipleSnapshotsSupported": true,
+                    "nestedHVSupported": true,
+                    "npivWwnOnNonRdmVmSupported": true,
+                    "perVmEvcSupported": true,
+                    "pmemFailoverSupported": false,
+                    "poweredOffSnapshotsSupported": true,
+                    "poweredOnMonitorTypeChangeSupported": true,
+                    "quiescedSnapshotsSupported": true,
+                    "recordReplaySupported": false,
+                    "requireSgxAttestationSupported": null,
+                    "revertToSnapshotSupported": true,
+                    "s1AcpiManagementSupported": true,
+                    "seSparseDiskSupported": true,
+                    "secureBootSupported": true,
+                    "settingDisplayTopologySupported": true,
+                    "settingScreenResolutionSupported": true,
+                    "settingVideoRamSizeSupported": true,
+                    "sevSupported": false,
+                    "snapshotConfigSupported": true,
+                    "snapshotOperationsSupported": true,
+                    "suspendToMemorySupported": true,
+                    "swapPlacementSupported": true,
+                    "toolsAutoUpdateSupported": false,
+                    "toolsSyncTimeAllowSupported": true,
+                    "toolsSyncTimeSupported": true,
+                    "vPMCSupported": true,
+                    "vendorDeviceGroupSupported": null,
+                    "virtualExecUsageIgnored": true,
+                    "virtualMmuUsageIgnored": true,
+                    "virtualMmuUsageSupported": false,
+                    "vmNpivWwnDisableSupported": true,
+                    "vmNpivWwnSupported": true,
+                    "vmNpivWwnUpdateSupported": true
+                },
+                "config": {
+                    "_vimtype": "vim.vm.ConfigInfo",
+                    "alternateGuestName": "",
+                    "annotation": "",
+                    "bootOptions": {
+                        "_vimtype": "vim.vm.BootOptions",
+                        "bootDelay": 0,
+                        "bootOrder": [],
+                        "bootRetryDelay": 10000,
+                        "bootRetryEnabled": false,
+                        "efiSecureBootEnabled": false,
+                        "enterBIOSSetup": false,
+                        "networkBootProtocol": "ipv4"
+                    },
+                    "changeTrackingEnabled": false,
+                    "changeVersion": "2024-12-10T15:18:14.997165Z",
+                    "consolePreferences": null,
+                    "contentLibItemInfo": null,
+                    "cpuAffinity": null,
+                    "cpuAllocation": {
+                        "_vimtype": "vim.ResourceAllocationInfo",
+                        "expandableReservation": false,
+                        "limit": -1,
+                        "overheadLimit": null,
+                        "reservation": 0,
+                        "shares": {
+                            "_vimtype": "vim.SharesInfo",
+                            "level": "normal",
+                            "shares": 4000
+                        }
+                    },
+                    "cpuFeatureMask": [],
+                    "cpuHotAddEnabled": false,
+                    "cpuHotRemoveEnabled": false,
+                    "createDate": "2023-10-30T17:17:19.709011Z",
+                    "datastoreUrl": [
+                        {
+                            "_vimtype": "vim.vm.ConfigInfo.DatastoreUrlPair",
+                            "name": "ESXI_Data_1",
+                            "url": "/vmfs/volumes/06643bdf-7e9f8b25"
+                        }
+                    ],
+                    "defaultPowerOps": {
+                        "_vimtype": "vim.vm.DefaultPowerOpInfo",
+                        "defaultPowerOffType": "soft",
+                        "defaultResetType": "soft",
+                        "defaultSuspendType": "hard",
+                        "powerOffType": "soft",
+                        "resetType": "soft",
+                        "standbyAction": "checkpoint",
+                        "suspendType": "hard"
+                    },
+                    "deviceGroups": null,
+                    "deviceSwap": null,
+                    "extraConfig": [
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "vmci0.pciSlotNumber",
+                            "value": "32"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "svga.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "svga.guestBackedPrimaryAware",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "tools.guest.desktop.autolock",
+                            "value": "FALSE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "tools.remindInstall",
+                            "value": "FALSE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "sched.cpu.latencySensitivity",
+                            "value": "normal"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "scsi0.pciSlotNumber",
+                            "value": "160"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "scsi0.sasWWID",
+                            "value": "50 05 05 64 56 63 a2 60"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "sata0.pciSlotNumber",
+                            "value": "33"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet0.pciSlotNumber",
+                            "value": "192"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet1.pciSlotNumber",
+                            "value": "224"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet2.pciSlotNumber",
+                            "value": "256"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet3.pciSlotNumber",
+                            "value": "1184"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet4.pciSlotNumber",
+                            "value": "1216"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet5.pciSlotNumber",
+                            "value": "1248"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "ethernet6.pciSlotNumber",
+                            "value": "1280"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestOS.detailed.data",
+                            "value": "architecture='X86' bitness='64' distroName='Red Hat Enterprise Linux' distroVersion='8.8' familyName='Linux' kernelVersion='4.18.0-477.27.1.el8_8.x86_64' prettyName='Red Hat Enterprise Linux 8.8 (Ootpa)'"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge0.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge0.pciSlotNumber",
+                            "value": "17"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge4.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge4.virtualDev",
+                            "value": "pcieRootPort"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge4.functions",
+                            "value": "8"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge4.pciSlotNumber",
+                            "value": "21"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge5.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge5.virtualDev",
+                            "value": "pcieRootPort"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge5.functions",
+                            "value": "8"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge5.pciSlotNumber",
+                            "value": "22"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge6.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge6.virtualDev",
+                            "value": "pcieRootPort"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge6.functions",
+                            "value": "8"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge6.pciSlotNumber",
+                            "value": "23"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge7.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge7.virtualDev",
+                            "value": "pcieRootPort"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge7.functions",
+                            "value": "8"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "pciBridge7.pciSlotNumber",
+                            "value": "24"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "hpet0.present",
+                            "value": "TRUE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "nvram",
+                            "value": "vNIA4 (TGS J114).nvram"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "numa.autosize.cookie",
+                            "value": "40001"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "numa.autosize.vcpu.maxPerVirtualNode",
+                            "value": "4"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "monitor.phys_bits_used",
+                            "value": "43"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "vmotion.checkpointFBSize",
+                            "value": "8388608"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "vmotion.checkpointSVGAPrimarySize",
+                            "value": "8388608"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "softPowerOff",
+                            "value": "FALSE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestInfo.detailed.data",
+                            "value": "architecture='X86' bitness='64' cpeString='cpe:/o:redhat:enterprise_linux:8::baseos' distroAddlVersion='8.10 (Ootpa)' distroName='Red Hat Enterprise Linux' distroVersion='8.10' familyName='Linux' kernelVersion='4.18.0-553.22.1.el8_10.x86_64' prettyName='Red Hat Enterprise Linux 8.10 (Ootpa)'"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "checkpoint.vmState.readOnly",
+                            "value": "FALSE"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "uuid.action",
+                            "value": "keep"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "viv.moid",
+                            "value": "5becdeca-174e-488f-bf2d-b64f2cf376fd:vm-7319:XteoaEOqBClPvpL14FJ8x4+UGrj1R5nT0o1UMpO2EbM="
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "vmware.tools.internalversion",
+                            "value": "12389"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "vmware.tools.requiredversion",
+                            "value": "12358"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "migrate.hostLogState",
+                            "value": "none"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "migrate.migrationId",
+                            "value": "0"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "migrate.hostLog",
+                            "value": "vNIA4 (TGS J114)-069b28d2.hlog"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "sched.swap.derivedName",
+                            "value": "/vmfs/volumes/06643bdf-7e9f8b25/vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2)-33cd3a5a.vswp"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "scsi0:0.redo",
+                            "value": ""
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.vmtools.buildNumber",
+                            "value": "22544099"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.vmtools.description",
+                            "value": "open-vm-tools 12.3.5 build 22544099"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.vmtools.versionNumber",
+                            "value": "12389"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.vmtools.versionString",
+                            "value": "12.3.5"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.vmware.components.available",
+                            "value": "none"
+                        },
+                        {
+                            "_vimtype": "vim.option.OptionValue",
+                            "key": "guestinfo.appInfo",
+                            "value": "{\n\"version\":\"1\", \n\"updateCounter\":\"1\", \n\"publishTime\":\"2024-12-10T16:00:51.603Z\", \n\"applications\":[\n{\"a\":\"kworker/0:0-events\",\"v\":\"\"},\n{\"a\":\"kworker/2:1-events\",\"v\":\"\"},\n{\"a\":\"kworker/1:1-mm_percpu_wq\",\"v\":\"\"},\n{\"a\":\"-bash\",\"v\":\"\"},\n{\"a\":\"su\",\"v\":\"\"},\n{\"a\":\"sudo\",\"v\":\"\"},\n{\"a\":\"kworker/2:0-xfs-sync/dm-6\",\"v\":\"\"},\n{\"a\":\"tmux\",\"v\":\"\"},\n{\"a\":\"kworker/0:3-events\",\"v\":\"\"},\n{\"a\":\"systemd\",\"v\":\"\"},\n{\"a\":\"kworker/0:1-events\",\"v\":\"\"},\n{\"a\":\"login -- ogs-admin\",\"v\":\"\"},\n{\"a\":\"sshd\",\"v\":\"\"},\n{\"a\":\"staticd\",\"v\":\"\"},\n{\"a\":\"zebra\",\"v\":\"\"},\n{\"a\":\"watchfrr\",\"v\":\"\"},\n{\"a\":\"kworker/1:5-events\",\"v\":\"\"},\n{\"a\":\"crond\",\"v\":\"\"},\n{\"a\":\"snmpd\",\"v\":\"\"},\n{\"a\":\"rsyslogd\",\"v\":\"\"},\n{\"a\":\"systemd-logind\",\"v\":\"\"},\n{\"a\":\"rhsmcertd\",\"v\":\"\"},\n{\"a\":\"gssproxy\",\"v\":\"\"},\n{\"a\":\"usbguard-daemon\",\"v\":\"\"},\n{\"a\":\"chronyd\",\"v\":\"\"},\n{\"a\":\"irqbalance\",\"v\":\"\"},\n{\"a\":\"gpm\",\"v\":\"\"},\n{\"a\":\"vmtoolsd\",\"v\":\"\"},\n{\"a\":\"VGAuthService\",\"v\":\"\"},\n{\"a\":\"NetworkManager\",\"v\":\"\"},\n{\"a\":\"dbus-daemon\",\"v\":\"\"},\n{\"a\":\"fapolicyd\",\"v\":\"\"},\n{\"a\":\"audit_prune_tre\",\"v\":\"\"},\n{\"a\":\"xprtiod\",\"v\":\"\"},\n{\"a\":\"rpciod\",\"v\":\"\"},\n{\"a\":\"sedispatch\",\"v\":\"\"},\n{\"a\":\"auditd\",\"v\":\"\"},\n{\"a\":\"rpcbind\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-3\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-3\",\"v\":\"\"},\n{\"a\":\"xfs-blockgc/dm-\",\"v\":\"\"},\n{\"a\":\"xfs-reclaim/dm-\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-3\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-3\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-3\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-9\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-9\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-7\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-7\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-9\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-9\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-7\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-9\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-7\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-7\",\"v\":\"\"},\n{\"a\":\"kworker/2:3-mm_percpu_wq\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-4\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-8\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-6\",\"v\":\"\"},\n{\"a\":\"xfsaild/sda2\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-4\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-8\",\"v\":\"\"},\n{\"a\":\"xfs-log/sda2\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-6\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-10\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-10\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-4\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-8\",\"v\":\"\"},\n{\"a\":\"xfs-blockgc/sda\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-4\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-8\",\"v\":\"\"},\n{\"a\":\"xfs-reclaim/sda\",\"v\":\"\"},\n{\"a\":\"xfs-cil/sda2\",\"v\":\"\"},\n{\"a\":\"xfs-conv/sda2\",\"v\":\"\"},\n{\"a\":\"xfs-buf/sda2\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-8\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-5\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-4\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-6\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-6\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-6\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-5\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-10\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-10\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-5\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-5\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-5\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-10\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:10\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:9\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:8\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:7\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:6\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:5\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:4\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:3\",\"v\":\"\"},\n{\"a\":\"irq/94-vmw_vmci\",\"v\":\"\"},\n{\"a\":\"irq/93-vmw_vmci\",\"v\":\"\"},\n{\"a\":\"systemd-udevd\",\"v\":\"\"},\n{\"a\":\"systemd-journald\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-2\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-2\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-2\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-2\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-2\",\"v\":\"\"},\n{\"a\":\"xfsaild/dm-0\",\"v\":\"\"},\n{\"a\":\"xfs-log/dm-0\",\"v\":\"\"},\n{\"a\":\"xfs-cil/dm-0\",\"v\":\"\"},\n{\"a\":\"xfs-conv/dm-0\",\"v\":\"\"},\n{\"a\":\"xfs-buf/dm-0\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:2\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:1\",\"v\":\"\"},\n{\"a\":\"kdmflush/253:0\",\"v\":\"\"},\n{\"a\":\"kworker/3:3-events\",\"v\":\"\"},\n{\"a\":\"xfs_mru_cache\",\"v\":\"\"},\n{\"a\":\"xfsalloc\",\"v\":\"\"},\n{\"a\":\"kworker/u8:29-flush-253:7\",\"v\":\"\"},\n{\"a\":\"kworker/u8:28-events_unbound\",\"v\":\"\"},\n{\"a\":\"kworker/u8:27-xfs-blockgc/dm-7\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_32\",\"v\":\"\"},\n{\"a\":\"scsi_eh_32\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_31\",\"v\":\"\"},\n{\"a\":\"scsi_eh_31\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_30\",\"v\":\"\"},\n{\"a\":\"scsi_eh_30\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_29\",\"v\":\"\"},\n{\"a\":\"scsi_eh_29\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_28\",\"v\":\"\"},\n{\"a\":\"scsi_eh_28\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_27\",\"v\":\"\"},\n{\"a\":\"scsi_eh_27\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_26\",\"v\":\"\"},\n{\"a\":\"scsi_eh_26\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_25\",\"v\":\"\"},\n{\"a\":\"scsi_eh_25\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_24\",\"v\":\"\"},\n{\"a\":\"scsi_eh_24\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_23\",\"v\":\"\"},\n{\"a\":\"scsi_eh_23\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_22\",\"v\":\"\"},\n{\"a\":\"scsi_eh_22\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_21\",\"v\":\"\"},\n{\"a\":\"scsi_eh_21\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_20\",\"v\":\"\"},\n{\"a\":\"scsi_eh_20\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_19\",\"v\":\"\"},\n{\"a\":\"scsi_eh_19\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_18\",\"v\":\"\"},\n{\"a\":\"scsi_eh_18\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_17\",\"v\":\"\"},\n{\"a\":\"scsi_eh_17\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_16\",\"v\":\"\"},\n{\"a\":\"scsi_eh_16\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_15\",\"v\":\"\"},\n{\"a\":\"ttm\",\"v\":\"\"},\n{\"a\":\"irq/16-vmwgfx\",\"v\":\"\"},\n{\"a\":\"scsi_eh_15\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_14\",\"v\":\"\"},\n{\"a\":\"scsi_eh_14\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_13\",\"v\":\"\"},\n{\"a\":\"scsi_eh_13\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_12\",\"v\":\"\"},\n{\"a\":\"scsi_eh_12\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_11\",\"v\":\"\"},\n{\"a\":\"scsi_eh_11\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_10\",\"v\":\"\"},\n{\"a\":\"scsi_eh_10\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_9\",\"v\":\"\"},\n{\"a\":\"scsi_eh_9\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_8\",\"v\":\"\"},\n{\"a\":\"scsi_eh_8\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_7\",\"v\":\"\"},\n{\"a\":\"scsi_eh_7\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_6\",\"v\":\"\"},\n{\"a\":\"scsi_eh_6\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_5\",\"v\":\"\"},\n{\"a\":\"scsi_eh_5\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_4\",\"v\":\"\"},\n{\"a\":\"scsi_eh_4\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_3\",\"v\":\"\"},\n{\"a\":\"scsi_eh_3\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_2\",\"v\":\"\"},\n{\"a\":\"scsi_eh_2\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_1\",\"v\":\"\"},\n{\"a\":\"scsi_eh_1\",\"v\":\"\"},\n{\"a\":\"ata_sff\",\"v\":\"\"},\n{\"a\":\"vmw_pvscsi_wq_0\",\"v\":\"\"},\n{\"a\":\"scsi_tmf_0\",\"v\":\"\"},\n{\"a\":\"scsi_eh_0\",\"v\":\"\"},\n{\"a\":\"kworker/0:1H-xfs-log/dm-7\",\"v\":\"\"},\n{\"a\":\"kworker/1:1H-kblockd\",\"v\":\"\"},\n{\"a\":\"zswap-shrink\",\"v\":\"\"},\n{\"a\":\"kstrp\",\"v\":\"\"},\n{\"a\":\"ipv6_addrconf\",\"v\":\"\"},\n{\"a\":\"kworker/2:1H-kblockd\",\"v\":\"\"},\n{\"a\":\"kaluad\",\"v\":\"\"},\n{\"a\":\"kmpath_rdacd\",\"v\":\"\"},\n{\"a\":\"acpi_thermal_pm\",\"v\":\"\"},\n{\"a\":\"irq/55-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/54-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/53-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/52-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/51-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/50-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/49-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/48-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/47-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/46-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/45-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/44-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/43-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/42-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/41-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/40-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/39-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/38-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/37-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/36-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/35-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/34-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/33-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/32-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/31-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/30-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/29-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/28-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/27-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/26-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/25-pciehp\",\"v\":\"\"},\n{\"a\":\"irq/24-pciehp\",\"v\":\"\"},\n{\"a\":\"kworker/3:2-xfs-buf/dm-0\",\"v\":\"\"},\n{\"a\":\"kthrotld\",\"v\":\"\"},\n{\"a\":\"kswapd0\",\"v\":\"\"},\n{\"a\":\"kworker/3:1H-kblockd\",\"v\":\"\"},\n{\"a\":\"watchdogd\",\"v\":\"\"},\n{\"a\":\"edac-poller\",\"v\":\"\"},\n{\"a\":\"md_bitmap\",\"v\":\"\"},\n{\"a\":\"md\",\"v\":\"\"},\n{\"a\":\"tpm_dev_wq\",\"v\":\"\"},\n{\"a\":\"blkcg_punt_bio\",\"v\":\"\"},\n{\"a\":\"kblockd\",\"v\":\"\"},\n{\"a\":\"kintegrityd\",\"v\":\"\"},\n{\"a\":\"crypto\",\"v\":\"\"},\n{\"a\":\"khugepaged\",\"v\":\"\"},\n{\"a\":\"ksmd\",\"v\":\"\"},\n{\"a\":\"kcompactd0\",\"v\":\"\"},\n{\"a\":\"writeback\",\"v\":\"\"},\n{\"a\":\"oom_reaper\",\"v\":\"\"},\n{\"a\":\"khungtaskd\",\"v\":\"\"},\n{\"a\":\"kauditd\",\"v\":\"\"},\n{\"a\":\"netns\",\"v\":\"\"},\n{\"a\":\"kdevtmpfs\",\"v\":\"\"},\n{\"a\":\"kworker/3:0H-events_highpri\",\"v\":\"\"},\n{\"a\":\"ksoftirqd/3\",\"v\":\"\"},\n{\"a\":\"migration/3\",\"v\":\"\"},\n{\"a\":\"watchdog/3\",\"v\":\"\"},\n{\"a\":\"cpuhp/3\",\"v\":\"\"},\n{\"a\":\"kworker/2:0H-events_highpri\",\"v\":\"\"},\n{\"a\":\"ksoftirqd/2\",\"v\":\"\"},\n{\"a\":\"migration/2\",\"v\":\"\"},\n{\"a\":\"watchdog/2\",\"v\":\"\"},\n{\"a\":\"cpuhp/2\",\"v\":\"\"},\n{\"a\":\"kworker/1:0H-events_highpri\",\"v\":\"\"},\n{\"a\":\"ksoftirqd/1\",\"v\":\"\"},\n{\"a\":\"migration/1\",\"v\":\"\"},\n{\"a\":\"watchdog/1\",\"v\":\"\"},\n{\"a\":\"cpuhp/1\",\"v\":\"\"},\n{\"a\":\"cpuhp/0\",\"v\":\"\"},\n{\"a\":\"watchdog/0\",\"v\":\"\"},\n{\"a\":\"migration/0\",\"v\":\"\"},\n{\"a\":\"rcu_sched\",\"v\":\"\"},\n{\"a\":\"ksoftirqd/0\",\"v\":\"\"},\n{\"a\":\"rcu_tasks_trace\",\"v\":\"\"},\n{\"a\":\"rcu_tasks_rude_\",\"v\":\"\"},\n{\"a\":\"mm_percpu_wq\",\"v\":\"\"},\n{\"a\":\"kworker/0:0H-events_highpri\",\"v\":\"\"},\n{\"a\":\"slub_flushwq\",\"v\":\"\"},\n{\"a\":\"rcu_par_gp\",\"v\":\"\"},\n{\"a\":\"rcu_gp\",\"v\":\"\"},\n{\"a\":\"kthreadd\",\"v\":\"\"}]}"
+                        }
+                    ],
+                    "files": {
+                        "_vimtype": "vim.vm.FileInfo",
+                        "ftMetadataDirectory": null,
+                        "logDirectory": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/",
+                        "snapshotDirectory": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/",
+                        "suspendDirectory": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/",
+                        "vmPathName": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2).vmx"
+                    },
+                    "firmware": "efi",
+                    "fixedPassthruHotPlugEnabled": null,
+                    "flags": {
+                        "_vimtype": "vim.vm.FlagInfo",
+                        "cbrcCacheEnabled": false,
+                        "disableAcceleration": false,
+                        "diskUuidEnabled": false,
+                        "enableLogging": true,
+                        "faultToleranceType": "unset",
+                        "htSharing": "any",
+                        "monitorType": "release",
+                        "recordReplayEnabled": false,
+                        "runWithDebugInfo": false,
+                        "snapshotDisabled": false,
+                        "snapshotLocked": false,
+                        "snapshotPowerOffBehavior": "powerOff",
+                        "useToe": false,
+                        "vbsEnabled": false,
+                        "virtualExecUsage": "hvAuto",
+                        "virtualMmuUsage": "automatic",
+                        "vvtdEnabled": false
+                    },
+                    "forkConfigInfo": null,
+                    "ftEncryptionMode": "ftEncryptionOpportunistic",
+                    "ftInfo": null,
+                    "guestAutoLockEnabled": false,
+                    "guestFullName": "Red Hat Enterprise Linux 8 (64-bit)",
+                    "guestId": "rhel8_64Guest",
+                    "guestIntegrityInfo": {
+                        "_vimtype": "vim.vm.GuestIntegrityInfo",
+                        "enabled": false
+                    },
+                    "guestMonitoringModeInfo": {
+                        "_vimtype": "vim.vm.GuestMonitoringModeInfo",
+                        "gmmAppliance": null,
+                        "gmmFile": null
+                    },
+                    "hardware": {
+                        "_vimtype": "vim.vm.VirtualHardware",
+                        "autoCoresPerSocket": null,
+                        "device": [
+                            {
+                                "_vimtype": "vim.vm.device.VirtualIDEController",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": null,
+                                "device": [],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "IDE 0",
+                                    "summary": "IDE 0"
+                                },
+                                "key": 200,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualIDEController",
+                                "backing": null,
+                                "busNumber": 1,
+                                "connectable": null,
+                                "controllerKey": null,
+                                "device": [],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "IDE 1",
+                                    "summary": "IDE 1"
+                                },
+                                "key": 201,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualPS2Controller",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": null,
+                                "device": [
+                                    600,
+                                    700
+                                ],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "PS2 controller 0",
+                                    "summary": "PS2 controller 0"
+                                },
+                                "key": 300,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualPCIController",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": null,
+                                "device": [
+                                    500,
+                                    12000,
+                                    1000,
+                                    15000,
+                                    4000,
+                                    4001,
+                                    4002,
+                                    4003,
+                                    4004,
+                                    4005,
+                                    4006
+                                ],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "PCI controller 0",
+                                    "summary": "PCI controller 0"
+                                },
+                                "key": 100,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualSIOController",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": null,
+                                "device": [],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "SIO controller 0",
+                                    "summary": "SIO controller 0"
+                                },
+                                "key": 400,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualKeyboard",
+                                "backing": null,
+                                "connectable": null,
+                                "controllerKey": 300,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Keyboard ",
+                                    "summary": "Keyboard"
+                                },
+                                "key": 600,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": 0
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualPointingDevice",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualPointingDevice.DeviceBackingInfo",
+                                    "deviceName": "",
+                                    "hostPointingDevice": "autodetect",
+                                    "useAutoDetect": false
+                                },
+                                "connectable": null,
+                                "controllerKey": 300,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Pointing device",
+                                    "summary": "Pointing device; Device"
+                                },
+                                "key": 700,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": 1
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVideoCard",
+                                "backing": null,
+                                "connectable": null,
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Video card ",
+                                    "summary": "Video card"
+                                },
+                                "enable3DSupport": false,
+                                "graphicsMemorySizeInKB": 262144,
+                                "key": 500,
+                                "numDisplays": 1,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": 0,
+                                "use3dRenderer": "automatic",
+                                "useAutoDetect": false,
+                                "videoRamSizeInKB": 8192
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVMCIDevice",
+                                "allowUnrestrictedCommunication": false,
+                                "backing": null,
+                                "connectable": null,
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "VMCI device",
+                                    "summary": "Device on the virtual machine PCI bus that provides support for the virtual machine communication interface"
+                                },
+                                "filterEnable": true,
+                                "filterInfo": null,
+                                "id": -1337840426,
+                                "key": 12000,
+                                "numaNode": null,
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 32
+                                },
+                                "unitNumber": 17
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.ParaVirtualSCSIController",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": 100,
+                                "device": [
+                                    2000
+                                ],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "SCSI controller 0",
+                                    "summary": "VMware paravirtual SCSI"
+                                },
+                                "hotAddRemove": true,
+                                "key": 1000,
+                                "numaNode": null,
+                                "scsiCtlrUnitNumber": 7,
+                                "sharedBus": "noSharing",
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 160
+                                },
+                                "unitNumber": 3
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualAHCIController",
+                                "backing": null,
+                                "busNumber": 0,
+                                "connectable": null,
+                                "controllerKey": 100,
+                                "device": [
+                                    16000
+                                ],
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "SATA controller 0",
+                                    "summary": "AHCI"
+                                },
+                                "key": 15000,
+                                "numaNode": null,
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 33
+                                },
+                                "unitNumber": 24
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualCdrom",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualCdrom.RemotePassthroughBackingInfo",
+                                    "deviceName": "",
+                                    "exclusive": false,
+                                    "useAutoDetect": false
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": false,
+                                    "migrateConnect": null,
+                                    "startConnected": false,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 15000,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "CD/DVD drive 1",
+                                    "summary": "Remote device"
+                                },
+                                "key": 16000,
+                                "numaNode": null,
+                                "slotInfo": null,
+                                "unitNumber": 0
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualDisk",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualDisk.FlatVer2BackingInfo",
+                                    "backingObjectId": "",
+                                    "changeId": null,
+                                    "contentId": "4f06bc63d715564a2512a2dbfffffffe",
+                                    "datastore": "vim.Datastore:datastore-588",
+                                    "deltaDiskFormat": null,
+                                    "deltaDiskFormatVariant": null,
+                                    "deltaGrainSize": null,
+                                    "digestEnabled": false,
+                                    "diskMode": "persistent",
+                                    "eagerlyScrub": false,
+                                    "fileName": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114).vmdk",
+                                    "keyId": null,
+                                    "parent": null,
+                                    "sharing": "sharingNone",
+                                    "split": false,
+                                    "thinProvisioned": true,
+                                    "uuid": "6000C294-0300-2afa-a3fe-98368ccf4e9f",
+                                    "writeThrough": false
+                                },
+                                "capacityInBytes": 805306368000,
+                                "capacityInKB": 786432000,
+                                "connectable": null,
+                                "controllerKey": 1000,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Hard disk 1",
+                                    "summary": "786,432,000 KB"
+                                },
+                                "diskObjectId": "3013-2000",
+                                "guestReadOnly": null,
+                                "independentFilters": [],
+                                "iofilter": [],
+                                "key": 2000,
+                                "nativeUnmanagedLinkedClone": false,
+                                "numaNode": null,
+                                "shares": {
+                                    "_vimtype": "vim.SharesInfo",
+                                    "level": "normal",
+                                    "shares": 1000
+                                },
+                                "slotInfo": null,
+                                "storageIOAllocation": {
+                                    "_vimtype": "vim.StorageResourceManager.IOAllocationInfo",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "shares": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 1000
+                                    }
+                                },
+                                "unitNumber": 0,
+                                "vDiskId": null,
+                                "vDiskVersion": null,
+                                "vFlashCacheConfigInfo": null
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.NetworkBackingInfo",
+                                    "deviceName": "Not connected",
+                                    "inPassthroughMode": null,
+                                    "network": "vim.Network:network-4442",
+                                    "useAutoDetect": false
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": false,
+                                    "migrateConnect": "unset",
+                                    "startConnected": false,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 1",
+                                    "summary": "Not connected"
+                                },
+                                "externalId": null,
+                                "key": 4000,
+                                "macAddress": "00:50:56:b0:a6:f7",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 192
+                                },
+                                "unitNumber": 7,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.NetworkBackingInfo",
+                                    "deviceName": "Not connected",
+                                    "inPassthroughMode": null,
+                                    "network": "vim.Network:network-4442",
+                                    "useAutoDetect": false
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": false,
+                                    "migrateConnect": "unset",
+                                    "startConnected": false,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 2",
+                                    "summary": "Not connected"
+                                },
+                                "externalId": null,
+                                "key": 4001,
+                                "macAddress": "00:50:56:b0:ad:20",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 224
+                                },
+                                "unitNumber": 8,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.NetworkBackingInfo",
+                                    "deviceName": "Not connected",
+                                    "inPassthroughMode": null,
+                                    "network": "vim.Network:network-4442",
+                                    "useAutoDetect": false
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": false,
+                                    "migrateConnect": "unset",
+                                    "startConnected": false,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 3",
+                                    "summary": "Not connected"
+                                },
+                                "externalId": null,
+                                "key": 4002,
+                                "macAddress": "00:50:56:b0:ee:46",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 256
+                                },
+                                "unitNumber": 9,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.DistributedVirtualPortBackingInfo",
+                                    "port": {
+                                        "_vimtype": "vim.dvs.PortConnection",
+                                        "connectionCookie": 349084622,
+                                        "portKey": "1754",
+                                        "portgroupKey": "dvportgroup-740",
+                                        "switchUuid": "50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                    }
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": true,
+                                    "migrateConnect": "unset",
+                                    "startConnected": true,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 4",
+                                    "summary": "DVSwitch: 50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                },
+                                "externalId": null,
+                                "key": 4003,
+                                "macAddress": "00:50:56:b0:76:85",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 1184
+                                },
+                                "unitNumber": 10,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.DistributedVirtualPortBackingInfo",
+                                    "port": {
+                                        "_vimtype": "vim.dvs.PortConnection",
+                                        "connectionCookie": 349088363,
+                                        "portKey": "1761",
+                                        "portgroupKey": "dvportgroup-741",
+                                        "switchUuid": "50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                    }
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": true,
+                                    "migrateConnect": "unset",
+                                    "startConnected": true,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 5",
+                                    "summary": "DVSwitch: 50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                },
+                                "externalId": null,
+                                "key": 4004,
+                                "macAddress": "00:50:56:b0:ea:0b",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 1216
+                                },
+                                "unitNumber": 11,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.DistributedVirtualPortBackingInfo",
+                                    "port": {
+                                        "_vimtype": "vim.dvs.PortConnection",
+                                        "connectionCookie": 349091975,
+                                        "portKey": "3371",
+                                        "portgroupKey": "dvportgroup-742",
+                                        "switchUuid": "50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                    }
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": true,
+                                    "migrateConnect": "unset",
+                                    "startConnected": true,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 6",
+                                    "summary": "DVSwitch: 50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                },
+                                "externalId": null,
+                                "key": 4005,
+                                "macAddress": "00:50:56:b0:13:7a",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 1248
+                                },
+                                "unitNumber": 12,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            },
+                            {
+                                "_vimtype": "vim.vm.device.VirtualVmxnet3",
+                                "addressType": "assigned",
+                                "backing": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.DistributedVirtualPortBackingInfo",
+                                    "port": {
+                                        "_vimtype": "vim.dvs.PortConnection",
+                                        "connectionCookie": 349096129,
+                                        "portKey": "1800",
+                                        "portgroupKey": "dvportgroup-743",
+                                        "switchUuid": "50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                    }
+                                },
+                                "connectable": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.ConnectInfo",
+                                    "allowGuestControl": true,
+                                    "connected": true,
+                                    "migrateConnect": "unset",
+                                    "startConnected": true,
+                                    "status": "ok"
+                                },
+                                "controllerKey": 100,
+                                "deviceGroupInfo": null,
+                                "deviceInfo": {
+                                    "_vimtype": "vim.Description",
+                                    "label": "Network adapter 7",
+                                    "summary": "DVSwitch: 50 30 05 7b ce 12 ba 65-3e 3d 3a d1 59 47 6f c6"
+                                },
+                                "externalId": null,
+                                "key": 4006,
+                                "macAddress": "00:50:56:b0:ee:e4",
+                                "numaNode": null,
+                                "resourceAllocation": {
+                                    "_vimtype": "vim.vm.device.VirtualEthernetCard.ResourceAllocation",
+                                    "limit": -1,
+                                    "reservation": 0,
+                                    "share": {
+                                        "_vimtype": "vim.SharesInfo",
+                                        "level": "normal",
+                                        "shares": 50
+                                    }
+                                },
+                                "slotInfo": {
+                                    "_vimtype": "vim.vm.device.VirtualDevice.PciBusSlotInfo",
+                                    "pciSlotNumber": 1280
+                                },
+                                "unitNumber": 13,
+                                "uptCompatibilityEnabled": true,
+                                "uptv2Enabled": null,
+                                "wakeOnLanEnabled": true
+                            }
+                        ],
+                        "memoryMB": 8192,
+                        "motherboardLayout": null,
+                        "numCPU": 4,
+                        "numCoresPerSocket": 1,
+                        "simultaneousThreads": null,
+                        "virtualICH7MPresent": false,
+                        "virtualSMCPresent": false
+                    },
+                    "hotPlugMemoryIncrementSize": 0,
+                    "hotPlugMemoryLimit": 8192,
+                    "initialOverhead": {
+                        "_vimtype": "vim.vm.ConfigInfo.OverheadInfo",
+                        "initialMemoryReservation": 111255552,
+                        "initialSwapReservation": 616439808
+                    },
+                    "instanceUuid": "5030161a-ad58-c287-f37a-acc7580edc6f",
+                    "keyId": null,
+                    "latencySensitivity": {
+                        "_vimtype": "vim.LatencySensitivity",
+                        "level": "normal",
+                        "sensitivity": null
+                    },
+                    "locationId": "564dbd0a-550a-393a-b80a-b6cd559e349d",
+                    "managedBy": null,
+                    "maxMksConnections": 40,
+                    "memoryAffinity": null,
+                    "memoryAllocation": {
+                        "_vimtype": "vim.ResourceAllocationInfo",
+                        "expandableReservation": false,
+                        "limit": -1,
+                        "overheadLimit": 127,
+                        "reservation": 0,
+                        "shares": {
+                            "_vimtype": "vim.SharesInfo",
+                            "level": "normal",
+                            "shares": 81920
+                        }
+                    },
+                    "memoryHotAddEnabled": false,
+                    "memoryReservationLockedToMax": false,
+                    "messageBusTunnelEnabled": false,
+                    "metroFtEnabled": null,
+                    "metroFtHostGroup": null,
+                    "migrateEncryption": "opportunistic",
+                    "modified": "1970-01-01T00:00:00Z",
+                    "name": "vNIA4 (TGS J114)(Stack2)",
+                    "nestedHVEnabled": false,
+                    "networkShaper": null,
+                    "npivDesiredNodeWwns": null,
+                    "npivDesiredPortWwns": null,
+                    "npivNodeWorldWideName": [],
+                    "npivOnNonRdmDisks": null,
+                    "npivPortWorldWideName": [],
+                    "npivTemporaryDisabled": true,
+                    "npivWorldWideNameType": null,
+                    "numaInfo": null,
+                    "pmem": null,
+                    "pmemFailoverEnabled": false,
+                    "rebootPowerOff": null,
+                    "repConfig": null,
+                    "scheduledHardwareUpgradeInfo": {
+                        "_vimtype": "vim.vm.ScheduledHardwareUpgradeInfo",
+                        "fault": null,
+                        "scheduledHardwareUpgradeStatus": "none",
+                        "upgradePolicy": "never",
+                        "versionKey": null
+                    },
+                    "sevEnabled": false,
+                    "sgxInfo": {
+                        "_vimtype": "vim.vm.SgxInfo",
+                        "epcSize": 0,
+                        "flcMode": "unlocked",
+                        "lePubKeyHash": null,
+                        "requireAttestation": null
+                    },
+                    "swapPlacement": "inherit",
+                    "swapStorageObjectId": null,
+                    "template": false,
+                    "tools": {
+                        "_vimtype": "vim.vm.ToolsConfigInfo",
+                        "afterPowerOn": true,
+                        "afterResume": true,
+                        "beforeGuestReboot": null,
+                        "beforeGuestShutdown": true,
+                        "beforeGuestStandby": true,
+                        "customizationKeyId": null,
+                        "lastInstallInfo": {
+                            "_vimtype": "vim.vm.ToolsConfigInfo.ToolsLastInstallInfo",
+                            "counter": 0,
+                            "fault": null
+                        },
+                        "pendingCustomization": null,
+                        "syncTimeWithHost": false,
+                        "syncTimeWithHostAllowed": true,
+                        "toolsInstallType": "guestToolsTypeOpenVMTools",
+                        "toolsUpgradePolicy": "manual",
+                        "toolsVersion": 12389
+                    },
+                    "uuid": "420e9a34-5663-a264-cf1e-acb5b0422cd6",
+                    "vAppConfig": null,
+                    "vAssertsEnabled": false,
+                    "vFlashCacheReservation": null,
+                    "vPMCEnabled": false,
+                    "vcpuConfig": [],
+                    "version": "vmx-14",
+                    "vmOpNotificationTimeout": null,
+                    "vmOpNotificationToAppEnabled": false,
+                    "vmStorageObjectId": null,
+                    "vmxConfigChecksum": "dn4RKmxPxDE1TxiBMdNHVpCRYkQ=",
+                    "vmxStatsCollectionEnabled": null
+                },
+                "configIssue": [],
+                "configStatus": "green",
+                "customValue": [],
+                "datastore": [
+                    "vim.Datastore:datastore-588"
+                ],
+                "declaredAlarmState": [
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-10",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-10.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.571939Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-113",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-113.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572001Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-12",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-12.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572027Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-15",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-15.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572045Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-19",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-19.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572063Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-2",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-2.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572087Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-38",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-38.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572142Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-39",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-39.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572166Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-40",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-40.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572181Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-47",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-47.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572195Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-5",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-5.vm-7319",
+                        "overallStatus": "green",
+                        "time": "2024-12-10T15:19:22.214195Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-503",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-503.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.57223Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-511",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-511.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572246Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-514",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": 479675,
+                        "key": "alarm-514.vm-7319",
+                        "overallStatus": "green",
+                        "time": "2024-12-10T15:18:47.231596Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-52",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-52.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572277Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-54",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-54.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572294Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-6",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-6.vm-7319",
+                        "overallStatus": "green",
+                        "time": "2024-12-10T15:19:22.2142Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-81",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-81.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572326Z"
+                    },
+                    {
+                        "_vimtype": "vim.alarm.AlarmState",
+                        "acknowledged": false,
+                        "acknowledgedByUser": null,
+                        "acknowledgedTime": null,
+                        "alarm": "vim.alarm.Alarm:alarm-9",
+                        "disabled": null,
+                        "entity": "vim.VirtualMachine:vm-7319",
+                        "eventKey": null,
+                        "key": "alarm-9.vm-7319",
+                        "overallStatus": "gray",
+                        "time": "2024-12-06T20:51:06.572343Z"
+                    }
+                ],
+                "disabledMethod": [
+                    "Destroy_Task",
+                    "UnregisterVM",
+                    "UnmountToolsInstaller",
+                    "AnswerVM",
+                    "UpgradeVM_Task",
+                    "UpgradeTools_Task",
+                    "UpgradeToolsFromImage_Task",
+                    "ApplyEvcModeVM_Task",
+                    "StartRecording_Task",
+                    "StopRecording_Task",
+                    "StartReplaying_Task",
+                    "StopReplaying_Task",
+                    "TurnOffFaultToleranceForVM_Task",
+                    "MakePrimaryVM_Task",
+                    "TerminateFaultTolerantVM_Task",
+                    "DisableSecondaryVM_Task",
+                    "EnableSecondaryVM_Task",
+                    "CreateSecondaryVM_Task",
+                    "CreateSecondaryVMEx_Task",
+                    "StopRecording_Task",
+                    "StopReplaying_Task",
+                    "CustomizeVM_Task",
+                    "MarkAsTemplate",
+                    "ResetGuestInformation",
+                    "ExportVm",
+                    "PowerOnVM_Task",
+                    "MarkAsVirtualMachine"
+                ],
+                "effectiveRole": [
+                    -1
+                ],
+                "environmentBrowser": "vim.EnvironmentBrowser:envbrowser-7319",
+                "guest": {
+                    "_vimtype": "vim.vm.GuestInfo",
+                    "appHeartbeatStatus": "appStatusGray",
+                    "appState": "none",
+                    "customizationInfo": {
+                        "_vimtype": "vim.vm.GuestInfo.CustomizationInfo",
+                        "customizationStatus": "TOOLSDEPLOYPKG_IDLE",
+                        "endTime": null,
+                        "errorMsg": null,
+                        "startTime": null
+                    },
+                    "disk": [
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 19992150016,
+                            "diskPath": "/",
+                            "filesystemType": "xfs",
+                            "freeSpace": 19717619712,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 9992929280,
+                            "diskPath": "/usr",
+                            "filesystemType": "xfs",
+                            "freeSpace": 7129919488,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 4993318912,
+                            "diskPath": "/tmp",
+                            "filesystemType": "xfs",
+                            "freeSpace": 4924547072,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 14992539648,
+                            "diskPath": "/opt",
+                            "filesystemType": "xfs",
+                            "freeSpace": 14402879488,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 992878592,
+                            "diskPath": "/boot",
+                            "filesystemType": "xfs",
+                            "freeSpace": 711618560,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 9988734976,
+                            "diskPath": "/var",
+                            "filesystemType": "xfs",
+                            "freeSpace": 9153122304,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 53660876800,
+                            "diskPath": "/Repo",
+                            "filesystemType": "xfs",
+                            "freeSpace": 51766861824,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 997326848,
+                            "diskPath": "/boot/efi",
+                            "filesystemType": "vfat",
+                            "freeSpace": 991240192,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 4993318912,
+                            "diskPath": "/var/tmp",
+                            "filesystemType": "xfs",
+                            "freeSpace": 4924502016,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 9992929280,
+                            "diskPath": "/var/log",
+                            "filesystemType": "xfs",
+                            "freeSpace": 9847508992,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 19987955712,
+                            "diskPath": "/home",
+                            "filesystemType": "xfs",
+                            "freeSpace": 19744059392,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.DiskInfo",
+                            "capacity": 11173888,
+                            "diskPath": "/var/log/audit",
+                            "filesystemType": "xfs",
+                            "freeSpace": 10166272,
+                            "mappings": [
+                                {
+                                    "_vimtype": "vim.vm.GuestInfo.VirtualDiskMapping",
+                                    "key": 2000
+                                }
+                            ]
+                        }
+                    ],
+                    "generationInfo": [],
+                    "guestDetailedData": null,
+                    "guestFamily": "linuxGuest",
+                    "guestFullName": "Red Hat Enterprise Linux 8 (64-bit)",
+                    "guestId": "rhel8_64Guest",
+                    "guestKernelCrashed": false,
+                    "guestOperationsReady": true,
+                    "guestState": "running",
+                    "guestStateChangeSupported": true,
+                    "hostName": "vnia4.j114.army.mil",
+                    "hwVersion": "vmx-14",
+                    "interactiveGuestOperationsReady": false,
+                    "ipAddress": "164.225.186.178",
+                    "ipStack": [
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.StackInfo",
+                            "dhcpConfig": null,
+                            "dnsConfig": {
+                                "_vimtype": "vim.net.DnsConfigInfo",
+                                "dhcp": false,
+                                "domainName": "j114.army.mil",
+                                "hostName": "vnia4.j114.army.mil",
+                                "ipAddress": [
+                                    "127.0.0.1"
+                                ],
+                                "searchDomain": [
+                                    "j114.army.mil"
+                                ]
+                            },
+                            "ipRouteConfig": {
+                                "_vimtype": "vim.net.IpRouteConfigInfo",
+                                "ipRoute": [
+                                    {
+                                        "_vimtype": "vim.net.IpRouteConfigInfo.IpRoute",
+                                        "gateway": {
+                                            "_vimtype": "vim.net.IpRouteConfigInfo.Gateway",
+                                            "device": "0",
+                                            "ipAddress": null
+                                        },
+                                        "network": "ff00::",
+                                        "prefixLength": 8
+                                    },
+                                    {
+                                        "_vimtype": "vim.net.IpRouteConfigInfo.IpRoute",
+                                        "gateway": {
+                                            "_vimtype": "vim.net.IpRouteConfigInfo.Gateway",
+                                            "device": "2",
+                                            "ipAddress": null
+                                        },
+                                        "network": "ff00::",
+                                        "prefixLength": 8
+                                    },
+                                    {
+                                        "_vimtype": "vim.net.IpRouteConfigInfo.IpRoute",
+                                        "gateway": {
+                                            "_vimtype": "vim.net.IpRouteConfigInfo.Gateway",
+                                            "device": "4",
+                                            "ipAddress": null
+                                        },
+                                        "network": "ff00::",
+                                        "prefixLength": 8
+                                    },
+                                    {
+                                        "_vimtype": "vim.net.IpRouteConfigInfo.IpRoute",
+                                        "gateway": {
+                                            "_vimtype": "vim.net.IpRouteConfigInfo.Gateway",
+                                            "device": "6",
+                                            "ipAddress": null
+                                        },
+                                        "network": "ff00::",
+                                        "prefixLength": 8
+                                    }
+                                ]
+                            },
+                            "ipStackConfig": []
+                        }
+                    ],
+                    "net": [
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": true,
+                            "deviceConfigId": 4003,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:76:85",
+                            "netBIOSConfig": null,
+                            "network": "I-ARLE-VLAN17"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": false,
+                            "deviceConfigId": 4000,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:a6:f7",
+                            "netBIOSConfig": null,
+                            "network": "Not connected"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": true,
+                            "deviceConfigId": 4004,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:ea:0b",
+                            "netBIOSConfig": null,
+                            "network": "I-ARLE-VLAN19"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": false,
+                            "deviceConfigId": 4001,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:ad:20",
+                            "netBIOSConfig": null,
+                            "network": "Not connected"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": true,
+                            "deviceConfigId": 4005,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:13:7a",
+                            "netBIOSConfig": null,
+                            "network": "I-ARLE-VLAN20"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": false,
+                            "deviceConfigId": 4002,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:ee:46",
+                            "netBIOSConfig": null,
+                            "network": "Not connected"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": true,
+                            "deviceConfigId": 4006,
+                            "dnsConfig": null,
+                            "ipAddress": [],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": []
+                            },
+                            "macAddress": "00:50:56:b0:ee:e4",
+                            "netBIOSConfig": null,
+                            "network": "I-ARLE-VLAN40"
+                        },
+                        {
+                            "_vimtype": "vim.vm.GuestInfo.NicInfo",
+                            "connected": true,
+                            "deviceConfigId": -1,
+                            "dnsConfig": null,
+                            "ipAddress": [
+                                "164.225.186.178"
+                            ],
+                            "ipConfig": {
+                                "_vimtype": "vim.net.IpConfigInfo",
+                                "autoConfigurationEnabled": null,
+                                "dhcp": null,
+                                "ipAddress": [
+                                    {
+                                        "_vimtype": "vim.net.IpConfigInfo.IpAddress",
+                                        "ipAddress": "164.225.186.178",
+                                        "lifetime": null,
+                                        "origin": null,
+                                        "prefixLength": 30,
+                                        "state": "preferred"
+                                    }
+                                ]
+                            },
+                            "macAddress": "00:00:00:00:00:00",
+                            "netBIOSConfig": null,
+                            "network": null
+                        }
+                    ],
+                    "screen": {
+                        "_vimtype": "vim.vm.GuestInfo.ScreenInfo",
+                        "height": 800,
+                        "width": 1280
+                    },
+                    "toolsInstallType": "guestToolsTypeOpenVMTools",
+                    "toolsRunningStatus": "guestToolsRunning",
+                    "toolsStatus": "toolsOk",
+                    "toolsVersion": "12389",
+                    "toolsVersionStatus": "guestToolsUnmanaged",
+                    "toolsVersionStatus2": "guestToolsUnmanaged"
+                },
+                "guestHeartbeatStatus": "green",
+                "layout": {
+                    "_vimtype": "vim.vm.FileLayout",
+                    "configFile": [
+                        "vNIA4 (TGS J114).nvram",
+                        "vNIA4 (TGS J114)(Stack2).vmsd"
+                    ],
+                    "disk": [
+                        {
+                            "_vimtype": "vim.vm.FileLayout.DiskLayout",
+                            "diskFile": [
+                                "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114).vmdk"
+                            ],
+                            "key": 2000
+                        }
+                    ],
+                    "logFile": [
+                        "vmware.log"
+                    ],
+                    "snapshot": [],
+                    "swapFile": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2)-33cd3a5a.vswp"
+                },
+                "layoutEx": {
+                    "_vimtype": "vim.vm.FileLayoutEx",
+                    "disk": [
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.DiskLayout",
+                            "chain": [
+                                {
+                                    "_vimtype": "vim.vm.FileLayoutEx.DiskUnit",
+                                    "fileKey": [
+                                        3,
+                                        4
+                                    ]
+                                }
+                            ],
+                            "key": 2000
+                        }
+                    ],
+                    "file": [
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 0,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2).vmx",
+                            "size": 5824,
+                            "type": "config",
+                            "uniqueSize": 5824
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 1,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114).nvram",
+                            "size": 270840,
+                            "type": "nvram",
+                            "uniqueSize": 270840
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 2,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2).vmsd",
+                            "size": 0,
+                            "type": "snapshotList",
+                            "uniqueSize": 0
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 3,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114).vmdk",
+                            "size": 562,
+                            "type": "diskDescriptor",
+                            "uniqueSize": 562
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 4,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)-flat.vmdk",
+                            "size": 36940242944,
+                            "type": "diskExtent",
+                            "uniqueSize": 36940242944
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 5,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2)-33cd3a5a.vswp",
+                            "size": 0,
+                            "type": "swap",
+                            "uniqueSize": 0
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 6,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vmx-vNIA4 (TGS J114)(Sta-7f4c34d0c8dcb9cfa5ac492651d3b6142a8e8e70-1.vswp",
+                            "size": 0,
+                            "type": "uwswap",
+                            "uniqueSize": 0
+                        },
+                        {
+                            "_vimtype": "vim.vm.FileLayoutEx.FileInfo",
+                            "accessible": true,
+                            "backingObjectId": null,
+                            "key": 7,
+                            "name": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vmware.log",
+                            "size": 378553,
+                            "type": "log",
+                            "uniqueSize": 378553
+                        }
+                    ],
+                    "snapshot": [],
+                    "timestamp": "2024-12-10T18:04:18.888271Z"
+                },
+                "name": "vNIA4 (TGS J114)(Stack2)",
+                "network": [
+                    "vim.Network:network-4442",
+                    "vim.dvs.DistributedVirtualPortgroup:dvportgroup-740",
+                    "vim.dvs.DistributedVirtualPortgroup:dvportgroup-741",
+                    "vim.dvs.DistributedVirtualPortgroup:dvportgroup-742",
+                    "vim.dvs.DistributedVirtualPortgroup:dvportgroup-743"
+                ],
+                "overallStatus": "green",
+                "parent": "vim.Folder:group-v7229",
+                "parentVApp": null,
+                "permission": [],
+                "recentTask": [],
+                "resourceConfig": {
+                    "_vimtype": "vim.ResourceConfigSpec",
+                    "changeVersion": null,
+                    "cpuAllocation": {
+                        "_vimtype": "vim.ResourceAllocationInfo",
+                        "expandableReservation": false,
+                        "limit": -1,
+                        "overheadLimit": null,
+                        "reservation": 0,
+                        "shares": {
+                            "_vimtype": "vim.SharesInfo",
+                            "level": "normal",
+                            "shares": 4000
+                        }
+                    },
+                    "entity": "vim.VirtualMachine:vm-7319",
+                    "lastModified": null,
+                    "memoryAllocation": {
+                        "_vimtype": "vim.ResourceAllocationInfo",
+                        "expandableReservation": false,
+                        "limit": -1,
+                        "overheadLimit": 127,
+                        "reservation": 0,
+                        "shares": {
+                            "_vimtype": "vim.SharesInfo",
+                            "level": "normal",
+                            "shares": 81920
+                        }
+                    },
+                    "scaleDescendantsShares": null
+                },
+                "resourcePool": "vim.ResourcePool:resgroup-584",
+                "rootSnapshot": [],
+                "runtime": {
+                    "_vimtype": "vim.vm.RuntimeInfo",
+                    "bootTime": "2024-12-10T15:18:14.996092Z",
+                    "cleanPowerOff": null,
+                    "connectionState": "connected",
+                    "consolidationNeeded": false,
+                    "cryptoState": null,
+                    "dasVmProtection": null,
+                    "device": [
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4000,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [
+                                    "vmNptIncompatibleNetwork"
+                                ],
+                                "vmDirectPathGen2InactiveReasonVm": []
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4001,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [
+                                    "vmNptIncompatibleNetwork"
+                                ],
+                                "vmDirectPathGen2InactiveReasonVm": []
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4002,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [
+                                    "vmNptIncompatibleNetwork"
+                                ],
+                                "vmDirectPathGen2InactiveReasonVm": []
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4003,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "green",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [],
+                                "vmDirectPathGen2InactiveReasonVm": [
+                                    "vmNptDisabledOrDisconnectedAdapter"
+                                ]
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4004,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "green",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [],
+                                "vmDirectPathGen2InactiveReasonVm": [
+                                    "vmNptDisabledOrDisconnectedAdapter"
+                                ]
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4005,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "green",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [],
+                                "vmDirectPathGen2InactiveReasonVm": [
+                                    "vmNptDisabledOrDisconnectedAdapter"
+                                ]
+                            }
+                        },
+                        {
+                            "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                            "key": 4006,
+                            "runtimeState": {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                "attachmentStatus": "green",
+                                "featureRequirement": [],
+                                "reservationStatus": null,
+                                "uptv2Active": null,
+                                "uptv2InactiveReasonOther": [],
+                                "uptv2InactiveReasonVm": [],
+                                "vmDirectPathGen2Active": false,
+                                "vmDirectPathGen2InactiveReasonExtended": null,
+                                "vmDirectPathGen2InactiveReasonOther": [],
+                                "vmDirectPathGen2InactiveReasonVm": [
+                                    "vmNptDisabledOrDisconnectedAdapter"
+                                ]
+                            }
+                        }
+                    ],
+                    "faultToleranceState": "notConfigured",
+                    "featureMask": [],
+                    "featureRequirement": [
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.abm",
+                            "key": "cpuid.abm",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.aes",
+                            "key": "cpuid.aes",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.avx",
+                            "key": "cpuid.avx",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.avx2",
+                            "key": "cpuid.avx2",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.bmi1",
+                            "key": "cpuid.bmi1",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.bmi2",
+                            "key": "cpuid.bmi2",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.cmpxchg16b",
+                            "key": "cpuid.cmpxchg16b",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.enfstrg",
+                            "key": "cpuid.enfstrg",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.f16c",
+                            "key": "cpuid.f16c",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.fcmd",
+                            "key": "cpuid.fcmd",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.fma",
+                            "key": "cpuid.fma",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.fsgsbase",
+                            "key": "cpuid.fsgsbase",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.ibpb",
+                            "key": "cpuid.ibpb",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.ibrs",
+                            "key": "cpuid.ibrs",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.intel",
+                            "key": "cpuid.intel",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.invpcid",
+                            "key": "cpuid.invpcid",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.lahf64",
+                            "key": "cpuid.lahf64",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.lm",
+                            "key": "cpuid.lm",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.mdclear",
+                            "key": "cpuid.mdclear",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.movbe",
+                            "key": "cpuid.movbe",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.nx",
+                            "key": "cpuid.nx",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.pcid",
+                            "key": "cpuid.pcid",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.pclmulqdq",
+                            "key": "cpuid.pclmulqdq",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.pdpe1gb",
+                            "key": "cpuid.pdpe1gb",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.popcnt",
+                            "key": "cpuid.popcnt",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.rdrand",
+                            "key": "cpuid.rdrand",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.rdtscp",
+                            "key": "cpuid.rdtscp",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.smep",
+                            "key": "cpuid.smep",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.ss",
+                            "key": "cpuid.ss",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.ssbd",
+                            "key": "cpuid.ssbd",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.sse3",
+                            "key": "cpuid.sse3",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.sse41",
+                            "key": "cpuid.sse41",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.sse42",
+                            "key": "cpuid.sse42",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.ssse3",
+                            "key": "cpuid.ssse3",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.stibp",
+                            "key": "cpuid.stibp",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.xcr0_master_sse",
+                            "key": "cpuid.xcr0_master_sse",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.xcr0_master_ymm_h",
+                            "key": "cpuid.xcr0_master_ymm_h",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.xsave",
+                            "key": "cpuid.xsave",
+                            "value": "Bool:Min:1"
+                        },
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.xsaveopt",
+                            "key": "cpuid.xsaveopt",
+                            "value": "Bool:Min:1"
+                        }
+                    ],
+                    "host": "vim.HostSystem:host-587",
+                    "instantCloneFrozen": false,
+                    "iommuActive": null,
+                    "maxCpuUsage": 9176,
+                    "maxMemoryUsage": 8192,
+                    "memoryOverhead": null,
+                    "minRequiredEVCModeKey": "intel-haswell",
+                    "needSecondaryReason": null,
+                    "numMksConnections": 1,
+                    "offlineFeatureRequirement": [
+                        {
+                            "_vimtype": "vim.vm.FeatureRequirement",
+                            "featureName": "cpuid.lm",
+                            "key": "cpuid.lm",
+                            "value": "Num:Min:1"
+                        }
+                    ],
+                    "onlineStandby": false,
+                    "opNotificationTimeout": null,
+                    "paused": false,
+                    "powerState": "poweredOn",
+                    "question": null,
+                    "quiescedForkParent": null,
+                    "recordReplayState": "inactive",
+                    "snapshotInBackground": false,
+                    "suspendInterval": 0,
+                    "suspendTime": null,
+                    "suspendedToMemory": null,
+                    "toolsInstallerMounted": false,
+                    "vFlashCacheAllocation": null,
+                    "vmFailoverInProgress": null
+                },
+                "snapshot": null,
+                "storage": {
+                    "_vimtype": "vim.vm.StorageInfo",
+                    "perDatastoreUsage": [
+                        {
+                            "_vimtype": "vim.vm.StorageInfo.UsageOnDatastore",
+                            "committed": 36940898723,
+                            "datastore": "vim.Datastore:datastore-588",
+                            "uncommitted": 768366125056,
+                            "unshared": 36940243506
+                        }
+                    ],
+                    "timestamp": "2024-12-10T18:04:18.888999Z"
+                },
+                "summary": {
+                    "_vimtype": "vim.vm.Summary",
+                    "config": {
+                        "_vimtype": "vim.vm.Summary.ConfigSummary",
+                        "annotation": "",
+                        "cpuReservation": 0,
+                        "ftInfo": null,
+                        "guestFullName": "Red Hat Enterprise Linux 8 (64-bit)",
+                        "guestId": "rhel8_64Guest",
+                        "hwVersion": "vmx-14",
+                        "installBootRequired": false,
+                        "instanceUuid": "5030161a-ad58-c287-f37a-acc7580edc6f",
+                        "managedBy": null,
+                        "memoryReservation": 0,
+                        "memorySizeMB": 8192,
+                        "name": "vNIA4 (TGS J114)(Stack2)",
+                        "numCpu": 4,
+                        "numEthernetCards": 7,
+                        "numVirtualDisks": 1,
+                        "numVmiopBackings": 0,
+                        "product": null,
+                        "template": false,
+                        "tpmPresent": false,
+                        "uuid": "420e9a34-5663-a264-cf1e-acb5b0422cd6",
+                        "vmPathName": "[ESXI_Data_1] vNIA4 (TGS J114)(Stack2)/vNIA4 (TGS J114)(Stack2).vmx"
+                    },
+                    "customValue": [],
+                    "guest": {
+                        "_vimtype": "vim.vm.Summary.GuestSummary",
+                        "guestFullName": "Red Hat Enterprise Linux 8 (64-bit)",
+                        "guestId": "rhel8_64Guest",
+                        "hostName": "vnia4.j114.army.mil",
+                        "hwVersion": "vmx-14",
+                        "ipAddress": "164.225.186.178",
+                        "toolsRunningStatus": "guestToolsRunning",
+                        "toolsStatus": "toolsOk",
+                        "toolsVersionStatus": "guestToolsUnmanaged",
+                        "toolsVersionStatus2": "guestToolsUnmanaged"
+                    },
+                    "overallStatus": "green",
+                    "quickStats": {
+                        "_vimtype": "vim.vm.Summary.QuickStats",
+                        "activeMemory": 81,
+                        "balloonedMemory": 0,
+                        "compressedMemory": 0,
+                        "consumedOverheadMemory": 79,
+                        "distributedCpuEntitlement": 45,
+                        "distributedMemoryEntitlement": 2823,
+                        "ftLatencyStatus": "gray",
+                        "ftLogBandwidth": -1,
+                        "ftSecondaryLatency": -1,
+                        "grantedMemory": 8192,
+                        "guestHeartbeatStatus": "green",
+                        "guestMemoryUsage": 81,
+                        "hostMemoryUsage": 8271,
+                        "memoryTierStats": [],
+                        "overallCpuDemand": 137,
+                        "overallCpuReadiness": 0,
+                        "overallCpuUsage": 137,
+                        "privateMemory": 8192,
+                        "sharedMemory": 0,
+                        "ssdSwappedMemory": 0,
+                        "staticCpuEntitlement": 1213,
+                        "staticMemoryEntitlement": 8327,
+                        "swappedMemory": 0,
+                        "uptimeSeconds": 10324
+                    },
+                    "runtime": {
+                        "_vimtype": "vim.vm.RuntimeInfo",
+                        "bootTime": "2024-12-10T15:18:14.996092Z",
+                        "cleanPowerOff": null,
+                        "connectionState": "connected",
+                        "consolidationNeeded": false,
+                        "cryptoState": null,
+                        "dasVmProtection": null,
+                        "device": [
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4000,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [
+                                        "vmNptIncompatibleNetwork"
+                                    ],
+                                    "vmDirectPathGen2InactiveReasonVm": []
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4001,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [
+                                        "vmNptIncompatibleNetwork"
+                                    ],
+                                    "vmDirectPathGen2InactiveReasonVm": []
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4002,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [
+                                        "vmNptIncompatibleNetwork"
+                                    ],
+                                    "vmDirectPathGen2InactiveReasonVm": []
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4003,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "green",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [],
+                                    "vmDirectPathGen2InactiveReasonVm": [
+                                        "vmNptDisabledOrDisconnectedAdapter"
+                                    ]
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4004,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "green",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [],
+                                    "vmDirectPathGen2InactiveReasonVm": [
+                                        "vmNptDisabledOrDisconnectedAdapter"
+                                    ]
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4005,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "green",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [],
+                                    "vmDirectPathGen2InactiveReasonVm": [
+                                        "vmNptDisabledOrDisconnectedAdapter"
+                                    ]
+                                }
+                            },
+                            {
+                                "_vimtype": "vim.vm.DeviceRuntimeInfo",
+                                "key": 4006,
+                                "runtimeState": {
+                                    "_vimtype": "vim.vm.DeviceRuntimeInfo.VirtualEthernetCardRuntimeState",
+                                    "attachmentStatus": "green",
+                                    "featureRequirement": [],
+                                    "reservationStatus": null,
+                                    "uptv2Active": null,
+                                    "uptv2InactiveReasonOther": [],
+                                    "uptv2InactiveReasonVm": [],
+                                    "vmDirectPathGen2Active": false,
+                                    "vmDirectPathGen2InactiveReasonExtended": null,
+                                    "vmDirectPathGen2InactiveReasonOther": [],
+                                    "vmDirectPathGen2InactiveReasonVm": [
+                                        "vmNptDisabledOrDisconnectedAdapter"
+                                    ]
+                                }
+                            }
+                        ],
+                        "faultToleranceState": "notConfigured",
+                        "featureMask": [],
+                        "featureRequirement": [
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.abm",
+                                "key": "cpuid.abm",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.aes",
+                                "key": "cpuid.aes",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.avx",
+                                "key": "cpuid.avx",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.avx2",
+                                "key": "cpuid.avx2",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.bmi1",
+                                "key": "cpuid.bmi1",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.bmi2",
+                                "key": "cpuid.bmi2",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.cmpxchg16b",
+                                "key": "cpuid.cmpxchg16b",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.enfstrg",
+                                "key": "cpuid.enfstrg",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.f16c",
+                                "key": "cpuid.f16c",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.fcmd",
+                                "key": "cpuid.fcmd",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.fma",
+                                "key": "cpuid.fma",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.fsgsbase",
+                                "key": "cpuid.fsgsbase",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.ibpb",
+                                "key": "cpuid.ibpb",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.ibrs",
+                                "key": "cpuid.ibrs",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.intel",
+                                "key": "cpuid.intel",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.invpcid",
+                                "key": "cpuid.invpcid",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.lahf64",
+                                "key": "cpuid.lahf64",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.lm",
+                                "key": "cpuid.lm",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.mdclear",
+                                "key": "cpuid.mdclear",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.movbe",
+                                "key": "cpuid.movbe",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.nx",
+                                "key": "cpuid.nx",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.pcid",
+                                "key": "cpuid.pcid",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.pclmulqdq",
+                                "key": "cpuid.pclmulqdq",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.pdpe1gb",
+                                "key": "cpuid.pdpe1gb",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.popcnt",
+                                "key": "cpuid.popcnt",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.rdrand",
+                                "key": "cpuid.rdrand",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.rdtscp",
+                                "key": "cpuid.rdtscp",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.smep",
+                                "key": "cpuid.smep",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.ss",
+                                "key": "cpuid.ss",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.ssbd",
+                                "key": "cpuid.ssbd",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.sse3",
+                                "key": "cpuid.sse3",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.sse41",
+                                "key": "cpuid.sse41",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.sse42",
+                                "key": "cpuid.sse42",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.ssse3",
+                                "key": "cpuid.ssse3",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.stibp",
+                                "key": "cpuid.stibp",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.xcr0_master_sse",
+                                "key": "cpuid.xcr0_master_sse",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.xcr0_master_ymm_h",
+                                "key": "cpuid.xcr0_master_ymm_h",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.xsave",
+                                "key": "cpuid.xsave",
+                                "value": "Bool:Min:1"
+                            },
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.xsaveopt",
+                                "key": "cpuid.xsaveopt",
+                                "value": "Bool:Min:1"
+                            }
+                        ],
+                        "host": "vim.HostSystem:host-587",
+                        "instantCloneFrozen": false,
+                        "iommuActive": null,
+                        "maxCpuUsage": 9176,
+                        "maxMemoryUsage": 8192,
+                        "memoryOverhead": null,
+                        "minRequiredEVCModeKey": "intel-haswell",
+                        "needSecondaryReason": null,
+                        "numMksConnections": 1,
+                        "offlineFeatureRequirement": [
+                            {
+                                "_vimtype": "vim.vm.FeatureRequirement",
+                                "featureName": "cpuid.lm",
+                                "key": "cpuid.lm",
+                                "value": "Num:Min:1"
+                            }
+                        ],
+                        "onlineStandby": false,
+                        "opNotificationTimeout": null,
+                        "paused": false,
+                        "powerState": "poweredOn",
+                        "question": null,
+                        "quiescedForkParent": null,
+                        "recordReplayState": "inactive",
+                        "snapshotInBackground": false,
+                        "suspendInterval": 0,
+                        "suspendTime": null,
+                        "suspendedToMemory": null,
+                        "toolsInstallerMounted": false,
+                        "vFlashCacheAllocation": null,
+                        "vmFailoverInProgress": null
+                    },
+                    "storage": {
+                        "_vimtype": "vim.vm.Summary.StorageSummary",
+                        "committed": 36940898723,
+                        "timestamp": "2024-12-10T18:04:18.889748Z",
+                        "uncommitted": 768366125056,
+                        "unshared": 36940243506
+                    },
+                    "vm": "vim.VirtualMachine:vm-7319"
+                },
+                "tag": [],
+                "triggeredAlarmState": [],
+                "value": []
+            }
+        }
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
