@@ -154,11 +154,13 @@
         dest: "/tmp/alloy-1.7.5-1.amd64.rpm"
         mode: 0644
 
+      #have to disable the repos, because if the share is not mounted then dnf aborts.
     - name: Install Grafana Alloy RPM
       ansible.builtin.yum:
         name: "/tmp/alloy-1.7.5-1.amd64.rpm"
         state: present
         disable_gpg_check: true
+        disablerepo: App-Repo,Base-Repo
 
     - name: Ensure Alloy configuration directory exists (verification)
       ansible.builtin.stat:
