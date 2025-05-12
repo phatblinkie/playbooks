@@ -87,8 +87,8 @@
         fi
 
         # Atomically update the file
-        mv -f "$METRIC_FILE" "$FINAL_FILE"
-        mv -f "$UPDATES_FILE_TMP" "$UPDATES_FILE"
+        mv -f "$METRIC_FILE" "$FINAL_FILE" && chmod 644 "$FINAL_FILE"
+        mv -f "$UPDATES_FILE_TMP" "$UPDATES_FILE" && chmod 644 "$UPDATES_FILE"
 
       generate_software_compliance_yml_file_path: "/usr/local/bin/generate_software_compliance_yml_file.sh"
       generate_software_compliance_yml_file_content: |
@@ -100,7 +100,7 @@
         # Process installed packages
         grep 'linux_software_info{' "{{ remote_metrics_path }}" | sed -n 's/.*name="\([^"]*\)",version="\([^"]*\)",arch="\([^"]*\)".*/  - hashname: "\1-\2"\n    name: "\1"\n    version: "\2"/p' >> "{{ remote_output_dir }}/{{ output_filename }}.tmp"
 
-        mv -f "{{ remote_output_dir }}/{{ output_filename }}.tmp" "{{ remote_output_dir_node }}/{{ output_filename }}"
+        mv -f "{{ remote_output_dir }}/{{ output_filename }}.tmp" "{{ remote_output_dir_node }}/{{ output_filename }}" && chmod 644 "{{ remote_output_dir_node }}/{{ output_filename }}"
         rm -f "{{ remote_output_dir }}/{{ output_filename }}.tmp"
 
     tasks:
