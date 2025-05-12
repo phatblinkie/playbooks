@@ -117,11 +117,6 @@
         software_compliance_results.counts.missing != 0 or
         software_compliance_results.counts.compliant == 0
 
-    - name: Fix permissions on prom files
-      ansible.builtin.shell: |
-        chmod -R 0644 /var/lib/node_exporter/textfile_collector/*.yml
-        chmod -R 0644 /var/lib/node_exporter/textfile_collector/*.prom
-
     - name: Show version file generation status
       debug:
         msg: "System version file was generated: version={{ system_patch_version }}"
