@@ -67,6 +67,16 @@
         - remote_metrics.stat.exists
         - file_content.stdout is defined
 
+    - name: touch stored file to update file timestamp - ansible bugfix
+      ansible.builtin.file:
+        state: touch
+        path: "{{ local_output_dir }}/{{ output_filename }}"
+      delegate_to: AAP
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - file_content.stdout is defined
+
     # Verification and reporting
     - name: Verify controller file
       ansible.builtin.stat:

@@ -80,8 +80,9 @@
         path: "{{ local_output_dir }}"
         state: directory
         mode: '0755'
-      delegate_to: AAP2
+      delegate_to: AAP
       run_once: true
+      become: true
 
     # Transfer to controller
     - name: Load file content into memory
@@ -100,7 +101,20 @@
         content: "{{ file_content.stdout }}"
         dest: "{{ local_output_dir }}/{{ output_filename }}"
         mode: '0644'
-      delegate_to: AAP2
+        force: true
+      delegate_to: AAP
+      become: true
+      when:
+        - metrics_dir.stat.exists
+        - remote_metrics.stat.exists
+        - file_content.stdout is defined
+
+    - name: touch stored file to update file timestamp - ansible bugfix
+      ansible.builtin.file:
+        state: touch
+        path: "{{ local_output_dir }}/{{ output_filename }}"
+      delegate_to: AAP
+      become: true
       when:
         - metrics_dir.stat.exists
         - remote_metrics.stat.exists
@@ -111,7 +125,8 @@
       ansible.builtin.stat:
         path: "{{ local_output_dir }}/{{ output_filename }}"
       register: stored_file
-      delegate_to: AAP2
+      delegate_to: AAP
+      become: true
       when:
         - metrics_dir.stat.exists
         - remote_metrics.stat.exists
