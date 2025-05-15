@@ -87,7 +87,9 @@
         }
         prometheus.scrape "windows_metrics" {
           targets    = discovery.relabel.windows_targets.output
-          forward_to = [prometheus.relabel.drop_old_windows_metrics.receiver]  // Updated to use filter
+          forward_to = [prometheus.relabel.drop_old_windows_metrics.receiver]
+          scrape_interval = "60s"
+          scrape_timeout  = "55s"
         }
 
         loki.write "remote_loki" {

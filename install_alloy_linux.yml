@@ -103,6 +103,8 @@
       prometheus.scrape "unix_metrics" {
         targets    = discovery.relabel.linux_targets.output
         forward_to = [prometheus.relabel.drop_old_metrics.receiver]
+        scrape_interval = "60s"
+        scrape_timeout  = "55s"
       }
 
 

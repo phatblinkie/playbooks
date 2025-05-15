@@ -68,7 +68,7 @@
             target_label = "__current_timestamp__"
             replacement = "${NOW_MS}"
           }
-          
+
           // Drop metrics older than 10 minutes
           rule {
             action = "drop"
@@ -82,12 +82,14 @@
             action = "labeldrop"
             regex = "__current_timestamp__"
           }
-          
+
           forward_to = [prometheus.remote_write.mimir_host.receiver]
         }
         prometheus.scrape "windows_metrics" {
           targets    = discovery.relabel.windows_targets.output
-          forward_to = [prometheus.relabel.drop_old_windows_metrics.receiver]  // Updated to use filter
+          forward_to = [prometheus.relabel.drop_old_windows_metrics.receiver]
+          scrape_interval = "60s"
+          scrape_timeout  = "55s"
         }
 
         loki.write "remote_loki" {
