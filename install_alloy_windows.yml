@@ -39,6 +39,7 @@
             "logon",
             "memory",
             "textfile",
+            "process",
           ]
 
           text_file {
