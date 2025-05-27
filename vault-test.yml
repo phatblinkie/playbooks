@@ -1,9 +1,0 @@
----
-- hosts: Domain_Controllers:HBSS:Syscon:VADER:VDI_Servers:Win_Servers:Workstations:win_hosts
-  gather_facts: false
-  tasks:
-    - name: Display group_var vaulted values
-      ansible.builtin.debug:
-        msg:
-          - "pw: {{ ansible_password }}"
-          - "user: {{ ansible_user }}"

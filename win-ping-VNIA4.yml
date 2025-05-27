@@ -1,6 +1,0 @@
----
-- hosts: VNIA4
-  tasks:
-   - name: Ping Linux Hosts
-     win_ping:
-

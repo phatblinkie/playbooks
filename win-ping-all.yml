@@ -1,6 +1,0 @@
----
-- hosts: phatdesktop:win_hosts:Win_Servers:Workstations:VDI_Servers:HBSS:Domain_Controllers:VADER:Syscon
-  tasks:
-   - name: Ping Windows Hosts
-     win_ping:
-

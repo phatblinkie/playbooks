@@ -1,7 +1,0 @@
----
-- hosts: "{{ target }}"
-  tasks:
-    - name: Stop OpenFire Service
-      ansible.windows.win_service:
-        name: OpenFire
-        state: started    

@@ -1,8 +1,0 @@
-ogs_vc_hostname: vcsa.infra.local
-ogs_vc_username: ansible-test@infra.local
-ogs_vc_password: DFyuqwhjty34JK@#23@#
-ogs_vc_validate_certs: no
-ogs_vc_datacenter: INFRA
-ogs_vc_folder: "/Labs/R/TGS LOT G"
-ogs_vc_snapshot_name: "PRE-FEB-Patch"
-ogs_vc_snap_description: PRE-FEB-Patch

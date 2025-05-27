@@ -1,8 +1,0 @@
----
-- hosts: win
-  tasks:
-    - name: Update Acrobat Reader
-      win_package:
-        path: http://164.225.186.93/software/AcroRdrDC2400520320_en_US.exe
-        state: present
-
