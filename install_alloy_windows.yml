@@ -5,7 +5,7 @@
     vars:
       alloy_version: "1.7.5"
         #grafanahost: "164.225.186.87"
-      grafanahost: "192.168.11.165"
+      grafanahost: "192.168.10.211"
       alloy_installer_url: "http://{{ grafanahost }}/rpms/alloy-installer-windows-amd64.exe.zip"
       #hosted on the grafana server at the moment.
       alloy_install_dir: "C:\\Program Files\\GrafanaLabs\\Alloy"
