@@ -1,0 +1,6 @@
+ansible_user: vagrant@phat.lab
+ansible_password: '1q2w3e4r!Q@W#E$R'
+ansible_connection: winrm
+ansible_port: 5985
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore
