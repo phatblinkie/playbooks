@@ -8,7 +8,7 @@
     remote_output_dir_node: "/var/lib/node_exporter/textfile_collector"
     remote_output_dir: "/tmp/software_inventory"
     output_filename: "{{ inventory_hostname }}_required_software.yml"
-    local_output_dir: "/home/admin/aap/controller/data/projects/playbooks-main/vars"
+    local_output_dir: "/home/admin/aap/controller/data/projects/_8__grafana/vars"
     generate_software_compliance_yml_file_path: "/usr/local/bin/generate_software_compliance_yml_file.sh"
     ansible_remote_tmp: /var/tmp/ans
 
@@ -39,7 +39,7 @@
         path: "{{ local_output_dir }}"
         state: directory
         mode: '0755'
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       become: true
       run_once: true
 
@@ -62,7 +62,7 @@
         mode: '0644'
         group: admin
         owner: admin
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       when:
         - metrics_dir.stat.exists
         - remote_metrics.stat.exists
@@ -72,7 +72,7 @@
       ansible.builtin.file:
         state: touch
         path: "{{ local_output_dir }}/{{ output_filename }}"
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       when:
         - metrics_dir.stat.exists
         - remote_metrics.stat.exists
@@ -83,7 +83,7 @@
       ansible.builtin.stat:
         path: "{{ local_output_dir }}/{{ output_filename }}"
       register: stored_file
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       when:
         - metrics_dir.stat.exists
         - remote_metrics.stat.exists

@@ -9,7 +9,7 @@
     output_filename: "{{ inventory_hostname }}_required_software.yml"
     output_filename_updates: "{{ inventory_hostname }}_required_software_updates.yml"
     #local_output_dir: "/home/aap/aap/controller/data/projects/_8__ogs/vars"
-    local_output_dir: "/home/admin/aap/controller/data/projects/playbooks-main/vars"
+    local_output_dir: "/home/admin/aap/controller/data/projects/_8__grafana/vars"
     #path used so the verfication files are read by another playbook
 
   tasks:
@@ -80,7 +80,7 @@
         path: "{{ local_output_dir }}"
         state: directory
         mode: '0755'
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       run_once: true
       become: true
 
@@ -102,7 +102,7 @@
         dest: "{{ local_output_dir }}/{{ output_filename }}"
         mode: '0644'
         force: true
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       become: true
       when:
         - metrics_dir.stat.exists
@@ -113,7 +113,7 @@
       ansible.builtin.file:
         state: touch
         path: "{{ local_output_dir }}/{{ output_filename }}"
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       become: true
       when:
         - metrics_dir.stat.exists
@@ -125,7 +125,7 @@
       ansible.builtin.stat:
         path: "{{ local_output_dir }}/{{ output_filename }}"
       register: stored_file
-      delegate_to: AAP
+      delegate_to: aap.phat.lab
       become: true
       when:
         - metrics_dir.stat.exists
