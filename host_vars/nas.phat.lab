@@ -1,0 +1,5 @@
+---
+ansible_remote_tmp: /var/tmp/ans
+ansible_user: admin
+ansible_become_password: local123
+ansible_ssh_password: local123
