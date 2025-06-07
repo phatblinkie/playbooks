@@ -95,11 +95,18 @@
             software_compliance_results.counts.compliant > 0
           }}
 
+    - name: Get timestamp from the system
+      shell: "date +%s"
+      register: timestamp
+
     - name: Write system patch version when fully compliant
       ansible.builtin.shell: |
         echo "# HELP system_patch_version Current system patch version
         # TYPE system_patch_version gauge
         system_patch_version{version=\"{{ system_patch_version }}\"} 1
+        # HELP system_patch_version_date Timetamp of the date checked
+        # TYPE system_patch_version_date gauge
+        system_patch_version_date{timestamp=\"{{ timestamp.stdout }}\"} {{ timestamp.stdout }}
         " > "{{ remote_system_version_path }}" && chmod 0644 "{{ remote_system_version_path }}"
       when: >
         software_compliance_results.counts.non_compliant == 0 and
@@ -111,6 +118,9 @@
         echo "# HELP system_patch_version Current system patch version
         # TYPE system_patch_version gauge
         system_patch_version{version=\"Not Compliant\"} 0
+        # HELP system_patch_version_date Timetamp of the date checked
+        # TYPE system_patch_version_date gauge
+        system_patch_version_date{timestamp=\"{{ timestamp.stdout }}\"} {{ timestamp.stdout }}
         " > "{{ remote_system_version_path }}" && chmod 0644 "{{ remote_system_version_path }}"
       when: >
         software_compliance_results.counts.non_compliant != 0 or
