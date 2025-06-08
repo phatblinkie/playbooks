@@ -142,7 +142,7 @@
         system_patch_version{version="{{ system_patch_version }}"} 1
         # HELP system_patch_version_date Timetamp of the date checked
         # TYPE system_patch_version_date gauge
-        system_patch_version_date{timestamp=\"{{ timestamp.stdout }}\"} {{ timestamp.stdout }}        
+        system_patch_version_date{timestamp="{{ timestamp.stdout }}"} {{ timestamp.stdout }}        
         "@ | Out-File -FilePath "{{ remote_system_version_path }}" -Encoding utf8 -Force
       when: >
         software_compliance_results.counts.non_compliant == 0 and
@@ -162,7 +162,7 @@
         system_patch_version{version="Not Compliant"} 0
         # HELP system_patch_version_date Timetamp of the date checked
         # TYPE system_patch_version_date gauge
-        system_patch_version_date{timestamp=\"{{ timestamp.stdout }}\"} {{ timestamp.stdout }}   
+        system_patch_version_date{timestamp="{{ timestamp.stdout }}"} {{ timestamp.stdout }}   
         "@ | Out-File -FilePath "{{ remote_system_version_path }}" -Encoding utf8 -Force
       when: >
         software_compliance_results.counts.non_compliant != 0 or
