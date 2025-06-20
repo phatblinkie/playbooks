@@ -183,6 +183,7 @@
         ansible.builtin.get_url:
           url: "{{ alloy_installer_url }}"
           dest: "/tmp/alloy-installer-{{ alloy_version }}.zip"
+          validate_certs: no
         delegate_to: localhost
         when: not alloy_installed.stat.exists
 

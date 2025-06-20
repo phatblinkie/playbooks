@@ -147,6 +147,7 @@
         url: "{{ alloy_rpm_url }}"
         dest: "/tmp/alloy-1.7.5-1.amd64.rpm"
         mode: '0644'
+        validate_certs: no
       delegate_to: localhost
         #run_once: true
 
