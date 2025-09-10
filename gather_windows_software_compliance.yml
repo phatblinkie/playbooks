@@ -12,7 +12,7 @@
     remote_compliance_path: "C:\\metrics\\software_compliance.prom"
     remote_system_version_path: "C:\\metrics\\system_version.prom"
     local_metrics_dir: "/var/tmp/ans/ansible_metrics"
-    system_patch_version: "1.2.3"
+    system_patch_version: "1.2.25.08"
 
   tasks:
     - name: Create local metrics directory
