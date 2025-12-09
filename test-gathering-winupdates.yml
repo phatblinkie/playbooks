@@ -41,10 +41,10 @@
           # HELP windows_update_available_info Information about available updates
           # TYPE windows_update_available_info gauge
           {% if update_count|int > 0 %}
-          {% for u in updates_list %}
-          {% set title = (u['title'] | default('Unknown') | string | replace('"', "'") | regex_replace('[,\\n]', '')) %}
-          {% set kb = (u['kb'] | default('N/A') | string) %}
-          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
+          {% for guid, u in updates_list.items() %}
+          {% set kb = (u.kb[0] if (u.kb | length > 0) else 'N/A') %}
+          {% set title = (u.title | string | replace('"', "'") | regex_replace('[,\\n]', ' ')) %}
+          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="KB{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
           {% endfor %}
           {% else %}
           # No updates available
