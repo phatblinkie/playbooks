@@ -3,80 +3,7 @@
     hosts: all
     gather_facts: yes
     vars:
-      get_windows_updates_path: "C:\\scripts\\check_windows_updates.ps1"
-      get_windows_updates_content: |
-          # Windows Update Check Script
-          # Created by Ansible - Do not modify manually
-
-          $ErrorActionPreference = "Stop"
-
-          # Get system information
-          $hostname = $env:COMPUTERNAME
-          $ipAddress = "{{ host_ip }}"
-          $timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
-
-          # Human-readable output
-          Write-Output "Windows Update Check Report"
-          Write-Output "========================="
-          Write-Output "Host: $hostname ($ipAddress)"
-          Write-Output "Timestamp: $timestamp"
-          Write-Output ""
-
-          try {
-              # Check for updates
-              $session = New-Object -ComObject Microsoft.Update.Session
-              $searcher = $session.CreateUpdateSearcher()
-              $searchResult = $searcher.Search("IsInstalled=0 and Type='Software'")
-              $updates = $searchResult.Updates
-              $updateCount = $updates.Count
-
-              # Human-readable output
-              if ($updateCount -gt 0) {
-                  Write-Output "Found $updateCount available updates:"
-                  $updates | ForEach-Object {
-                      $kb = if ($_.KBArticleIDs.Count -gt 0) { $_.KBArticleIDs[0] } else { "N/A" }
-                      Write-Output " - $($_.Title) (KB$kb)"
-                  }
-              } else {
-                  Write-Output "No updates available."
-              }
-
-              # Generate properly formatted metrics
-              $metricsContent = @"
-          # HELP windows_updates_available_count Number of available Windows updates
-          # TYPE windows_updates_available_count gauge
-          windows_updates_available_count{host="$hostname", ip="$ipAddress", timestamp="$timestamp"} $updateCount
-
-          # HELP windows_update_available_info Information about available updates
-          # TYPE windows_update_available_info gauge
-
-          "@
-
-              # Add update info metrics
-              if ($updateCount -gt 0) {
-                  $updates | ForEach-Object {
-                      $kb = if ($_.KBArticleIDs.Count -gt 0) { $_.KBArticleIDs[0] } else { "N/A" }
-                      $title = $_.Title -replace '"', "'" -replace '\n', ' ' -replace ',',''
-                      $metricsContent += "windows_update_available_info{host=`"$hostname`", ip=`"$ipAddress`", kb=`"KB$kb`", title=`"$title`", timestamp=`"$timestamp`"} 1`n"
-                  }
-              }
-
-              $metricsContent | Out-File -FilePath C:\metrics\updates_available.prom -Encoding utf8 -Force
-              exit 0
-          }
-          catch {
-              Write-Output "ERROR: $($_.Exception.Message)"
-              @"
-          # HELP windows_updates_available_count Number of available Windows updates
-          # TYPE windows_updates_available_count gauge
-          windows_updates_available_count{host="$hostname", ip="$ipAddress", timestamp="$timestamp"} -1
-
-          # HELP windows_update_available_info Information about available updates
-          # TYPE windows_update_available_info gauge
-          windows_update_available_info{host="$hostname", ip="$ipAddress", error="$($_.Exception.Message -replace '"', "'")", timestamp="$timestamp"} 1
-          "@ | Out-File -FilePath C:\metrics\updates_available.prom -Encoding utf8 -Force
-              exit 1
-          }
+      metrics_path: "C:\\metrics\\updates_available.prom"
 
       get_installed_software_path: "C:\\scripts\\get_installed_software.ps1"
       get_installed_software_content: |
@@ -272,12 +199,7 @@
           force: yes
           encoding: utf-8
 
-      - name: create scheduled task powershell
-        ansible.windows.win_copy:
-          dest: "{{ get_windows_updates_path }}"
-          content: "{{ get_windows_updates_content }}"
-          force: yes
-          encoding: utf-8
+
 
       - name: execute powershell scheduled task
         win_shell: "{{ create_scheduled_task_path }}"
@@ -285,11 +207,47 @@
       - name: execute powershell software export list
         win_shell: "{{ get_installed_software_path }}"
 
-      - name: Execute Windows Update check script
-        win_shell: |
-          powershell.exe -ExecutionPolicy Bypass -File C:\scripts\check_windows_updates.ps1
-        register: update_check
+      - name: Check for available Windows updates (no install)
+        ansible.windows.win_updates:
+          category_names: '*'
+          state: searched
+        register: update_info
 
-      - name: Display update check results
-        debug:
-          msg: "{{ update_check.stdout_lines | join('\n') }}"
+      - name: Set facts for metrics
+        ansible.builtin.set_fact:
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ host_ip }}"
+          timestamp: "{{ ansible_date_time.iso8601 }}"
+          update_count: "{{ update_info.found_update_count | default(0) }}"
+          updates_list: "{{ update_info.updates | default([]) }}"
+
+      - name: Build metrics content
+        ansible.builtin.set_fact:
+          metrics_content: |
+            # HELP windows_updates_available_count Number of available Windows updates
+            # TYPE windows_updates_available_count gauge
+            windows_updates_available_count{host="{{ hostname }}", ip="{{ ip_address }}", timestamp="{{ timestamp }}"} {{ update_count }}
+
+            # HELP windows_update_available_info Information about available updates
+            # TYPE windows_update_available_info gauge
+            {% if update_count|int > 0 %}
+            {% for guid, u in updates_list.items() %}
+            {% set kb = (u.kb[0] if (u.kb | length > 0) else 'N/A') %}
+            {% set title = (u.title | string | replace('"', "'") | regex_replace('[,\\n]', ' ')) %}
+            windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="KB{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
+            {% endfor %}
+            {% else %}
+            # No updates available
+            {% endif %}
+            
+      - name: Write metrics file
+        ansible.windows.win_copy:
+          content: "{{ metrics_content }}"
+          dest: "{{ metrics_path }}"
+          force: yes
+
+      - name: Display summary
+        ansible.builtin.debug:
+          msg: |
+            ✅ {{ hostname }} has {{ update_count }} update(s) available.
+            Prometheus metrics written to {{ metrics_path }}.
