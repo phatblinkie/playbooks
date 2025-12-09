@@ -1,0 +1,61 @@
+---
+- name: Generate Windows Update availability metrics
+  hosts: all
+  gather_facts: yes
+  become: no
+
+  vars:
+    metrics_path: "C:\\metrics\\updates_available.prom"
+
+  tasks:
+
+    - name: Ensure metrics directory exists
+      ansible.windows.win_file:
+        path: "{{ metrics_path | dirname }}"
+        state: directory
+
+    - name: Check for available Windows updates (no install)
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+          - Updates
+        state: searched
+      register: update_info
+
+    - name: Set facts for metrics
+      ansible.builtin.set_fact:
+        hostname: "{{ ansible_hostname }}"
+        ip_address: "{{ ansible_host }}"
+        timestamp: "{{ ansible_date_time.iso8601 }}"
+        update_count: "{{ update_info.found_update_count | default(0) }}"
+        updates_list: "{{ update_info.updates | default([]) }}"
+
+    - name: Build metrics content
+      ansible.builtin.set_fact:
+        metrics_content: |
+          # HELP windows_updates_available_count Number of available Windows updates
+          # TYPE windows_updates_available_count gauge
+          windows_updates_available_count{host="{{ hostname }}", ip="{{ ip_address }}", timestamp="{{ timestamp }}"} {{ update_count }}
+
+          # HELP windows_update_available_info Information about available updates
+          # TYPE windows_update_available_info gauge
+          {% if update_count|int > 0 %}
+          {% for u in updates_list %}
+          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="{{ u.kb | default('N/A') }}", title="{{ (u.title | replace('"', "'") | regex_replace('[,\\n]', '') ) }}", timestamp="{{ timestamp }}"} 1
+          {% endfor %}
+          {% else %}
+          # No updates available
+          {% endif %}
+
+    - name: Write metrics file
+      ansible.windows.win_copy:
+        content: "{{ metrics_content }}"
+        dest: "{{ metrics_path }}"
+        force: yes
+
+    - name: Display summary
+      ansible.builtin.debug:
+        msg: |
+          ✅ {{ hostname }} has {{ update_count }} update(s) available.
+          Prometheus metrics written to {{ metrics_path }}.
