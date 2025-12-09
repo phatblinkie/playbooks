@@ -9,10 +9,10 @@
 
   tasks:
 
-    - name: Ensure metrics directory exists
-      ansible.windows.win_file:
-        path: "{{ metrics_path | dirname }}"
-        state: directory
+#    - name: Ensure metrics directory exists
+#      ansible.windows.win_file:
+#        path: "{{ metrics_path | dirname }}"
+#        state: directory
 
     - name: Check for available Windows updates (no install)
       ansible.windows.win_updates:
