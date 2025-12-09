@@ -42,12 +42,14 @@
           # TYPE windows_update_available_info gauge
           {% if update_count|int > 0 %}
           {% for u in updates_list %}
-          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="{{ u.kb | default('N/A') }}", title="{{ (u.title | replace('"', "'") | regex_replace('[,\\n]', '') ) }}", timestamp="{{ timestamp }}"} 1
+          {% set title = (u['title'] | default('Unknown') | string | replace('"', "'") | regex_replace('[,\\n]', '')) %}
+          {% set kb = (u['kb'] | default('N/A') | string) %}
+          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
           {% endfor %}
           {% else %}
           # No updates available
           {% endif %}
-
+          
     - name: Write metrics file
       ansible.windows.win_copy:
         content: "{{ metrics_content }}"
