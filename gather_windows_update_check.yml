@@ -2,7 +2,9 @@
 - name: Windows Update Availability Check (Optimized)
   hosts: all
   gather_facts: no
-
+  vars:
+    metrics_path: "C:\\metrics\\updates_available.prom"
+    
   tasks:
     - name: Check if inventory_hostname is an IP address
       shell: |
@@ -34,11 +36,47 @@
         - C:\scripts
         - C:\metrics
 
-      - name: Execute Windows Update check script
-        win_shell: |
-          powershell.exe -ExecutionPolicy Bypass -File C:\scripts\check_windows_updates.ps1
-        register: update_check
+    - name: Check for available Windows updates (no install)
+      ansible.windows.win_updates:
+        category_names: '*'
+        state: searched
+      register: update_info
 
-      - name: Display update check results
-        debug:
-          msg: "{{ update_check.stdout_lines | join('\n') }}"
+    - name: Set facts for metrics
+      ansible.builtin.set_fact:
+        hostname: "{{ ansible_hostname }}"
+        ip_address: "{{ ansible_host }}"
+        timestamp: "{{ ansible_date_time.iso8601 }}"
+        update_count: "{{ update_info.found_update_count | default(0) }}"
+        updates_list: "{{ update_info.updates | default([]) }}"
+
+    - name: Build metrics content
+      ansible.builtin.set_fact:
+        metrics_content: |
+          # HELP windows_updates_available_count Number of available Windows updates
+          # TYPE windows_updates_available_count gauge
+          windows_updates_available_count{host="{{ hostname }}", ip="{{ ip_address }}", timestamp="{{ timestamp }}"} {{ update_count }}
+
+          # HELP windows_update_available_info Information about available updates
+          # TYPE windows_update_available_info gauge
+          {% if update_count|int > 0 %}
+          {% for guid, u in updates_list.items() %}
+          {% set kb = (u.kb[0] if (u.kb | length > 0) else 'N/A') %}
+          {% set title = (u.title | string | replace('"', "'") | regex_replace('[,\\n]', ' ')) %}
+          windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="KB{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
+          {% endfor %}
+          {% else %}
+          # No updates available
+          {% endif %}
+          
+    - name: Write metrics file
+      ansible.windows.win_copy:
+        content: "{{ metrics_content }}"
+        dest: "{{ metrics_path }}"
+        force: yes
+
+    - name: Display summary
+      ansible.builtin.debug:
+        msg: |
+          ✅ {{ hostname }} has {{ update_count }} update(s) available.
+          Prometheus metrics written to {{ metrics_path }}.

@@ -6,17 +6,77 @@
       get_installed_software_path: "C:\\scripts\\get_installed_software.ps1"
       # this gathers installed software and installed updates and writes them to a metrics file for grafana
       # this also gathers the windows update history and writes it to a metrics file for grafana
-      get_windows_update_output: "C:\\scripts\\check_windows_updates.ps1"
+      
+      metrics_path: "C:\\metrics\\updates_available.prom"
       # this checks for pending updates and writes them to a metrics file for grafana
 
     tasks:
       - name: execute powershell software exporter
         win_shell: "{{ get_installed_software_path }}"
 
-      - name: Execute Windows Update checking script
-        win_shell: "{{ get_windows_update_output }}"
-        register: update_check
+      - name: execute powershell scheduled task
+        win_shell: "{{ create_scheduled_task_path }}"
 
-      - name: Display update check results
-        debug:
-          msg: "{{ update_check.stdout_lines | join('\n') }}"
+      - name: execute powershell software export list
+        win_shell: "{{ get_installed_software_path }}"
+
+      - name: Check if inventory_hostname is an IP address
+        set_fact:
+          is_ip_address: "{{ inventory_hostname | regex_search('^\\d+\\.\\d+\\.\\d+\\.\\d+$') is not none }}"
+        delegate_to: localhost
+
+      - name: Resolve IP address on control node if not already an IP address
+        shell: getent ahostsv4 {{ inventory_hostname }} | head -n 1 | awk '{print $1}'
+        register: ip_lookup
+        when: not is_ip_address
+        delegate_to: localhost
+
+      - name: Set IP address fact
+        set_fact:
+          host_ip: "{{ inventory_hostname if is_ip_address else ip_lookup.stdout.strip() }}"
+        delegate_to: localhost
+        
+      - name: Check for available Windows updates (no install)
+        ansible.windows.win_updates:
+          category_names: '*'
+          state: searched
+        register: update_info
+
+      - name: Set facts for metrics
+        ansible.builtin.set_fact:
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ host_ip }}"
+          timestamp: "{{ ansible_date_time.iso8601 }}"
+          update_count: "{{ update_info.found_update_count | default(0) }}"
+          updates_list: "{{ update_info.updates | default([]) }}"
+
+      - name: Build metrics content
+        ansible.builtin.set_fact:
+          metrics_content: |
+            # HELP windows_updates_available_count Number of available Windows updates
+            # TYPE windows_updates_available_count gauge
+            windows_updates_available_count{host="{{ hostname }}", ip="{{ ip_address }}", timestamp="{{ timestamp }}"} {{ update_count }}
+
+            # HELP windows_update_available_info Information about available updates
+            # TYPE windows_update_available_info gauge
+            {% if update_count|int > 0 %}
+            {% for guid, u in updates_list.items() %}
+            {% set kb = (u.kb[0] if (u.kb | length > 0) else 'N/A') %}
+            {% set title = (u.title | string | replace('"', "'") | regex_replace('[,\\n]', ' ')) %}
+            windows_update_available_info{host="{{ hostname }}", ip="{{ ip_address }}", kb="KB{{ kb }}", title="{{ title }}", timestamp="{{ timestamp }}"} 1
+            {% endfor %}
+            {% else %}
+            # No updates available
+            {% endif %}
+            
+      - name: Write metrics file
+        ansible.windows.win_copy:
+          content: "{{ metrics_content }}"
+          dest: "{{ metrics_path }}"
+          force: yes
+
+      - name: Display summary
+        ansible.builtin.debug:
+          msg: |
+            ✅ {{ hostname }} has {{ update_count }} update(s) available.
+            Prometheus metrics written to {{ metrics_path }}.
