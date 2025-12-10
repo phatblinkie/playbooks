@@ -35,7 +35,7 @@
         set_fact:
           host_ip: "{{ inventory_hostname if is_ip_address else ip_lookup.stdout.strip() }}"
         delegate_to: localhost
-        
+
       - name: Check for available Windows updates (no install)
         ansible.windows.win_updates:
           category_names: '*'
@@ -79,4 +79,3 @@
         ansible.builtin.debug:
           msg: |
             ✅ {{ hostname }} has {{ update_count }} update(s) available.
-            Prometheus metrics written to {{ metrics_path }}.
