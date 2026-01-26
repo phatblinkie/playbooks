@@ -163,7 +163,8 @@
         name: "/tmp/alloy-1.7.5-1.amd64.rpm"
         state: present
         disable_gpg_check: true
-        disablerepo: App-Repo,Base-Repo
+        #disablerepo: App-Repo,Base-Repo
+        disablerepo: "*"
 
     - name: Ensure Alloy configuration directory exists (verification)
       ansible.builtin.stat:
