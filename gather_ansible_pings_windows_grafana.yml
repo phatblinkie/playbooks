@@ -27,7 +27,7 @@
       ansible.builtin.stat:
         path: "{{ metrics_file }}"
       register: metrics_file_stat
-      delegate_to: Grafana
+      delegate_to: aap-ui
       run_once: true
       become: true
 
@@ -78,7 +78,7 @@
               echo "NO_METRICS_FILE"
             fi
           register: existing_outage_check
-          delegate_to: Grafana
+          delegate_to: aap-ui
           changed_when: false
           ignore_errors: yes
           become: true
@@ -130,6 +130,6 @@
 
       args:
         executable: /bin/bash
-      delegate_to: Grafana
+      delegate_to: aap-ui
       run_once: true
       become: true
