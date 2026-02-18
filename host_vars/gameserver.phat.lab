@@ -1,5 +1,5 @@
 ---
 ansible_remote_tmp: /var/tmp/ans
-ansible_user: rust
+ansible_user: vagrant
 ansible_become_password: '0o9i8u7y)O(I*U&Y'
 ansible_ssh_password: '0o9i8u7y)O(I*U&Y'
