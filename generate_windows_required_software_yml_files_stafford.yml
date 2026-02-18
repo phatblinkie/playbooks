@@ -1,6 +1,6 @@
 ---
 - name: Generate and store software inventory
-  hosts: all
+  hosts: win_hosts
   gather_facts: no
   vars:
     remote_metrics_path: "C:\\metrics\\software_metrics.prom"

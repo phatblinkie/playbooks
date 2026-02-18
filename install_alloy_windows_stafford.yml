@@ -1,12 +1,12 @@
 ---
   - name: Install and configure Grafana Alloy on Windows
-    hosts: all
+    hosts: win_hosts
     gather_facts: yes
     vars:
       alloy_version: "1.7.5"
       grafanahost: "164.225.186.87"
       #grafanahost: "192.168.11.165"
-      alloy_installer_url: "http://{{ grafanahost }}/rpms/alloy-installer-windows-amd64.exe.zip"
+      alloy_installer_url: "https://{{ grafanahost }}/rpms/alloy-installer-windows-amd64.exe.zip"
       #hosted on the grafana server at the moment.
       alloy_install_dir: "C:\\Program Files\\GrafanaLabs\\Alloy"
       alloy_config_path: "C:\\Program Files\\GrafanaLabs\\Alloy\\config.alloy"

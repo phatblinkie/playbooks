@@ -1,6 +1,6 @@
 ---
   - name: Generate Windows software metric files
-    hosts: all
+    hosts: linux_hosts
     gather_facts: no
     become: true
     vars:

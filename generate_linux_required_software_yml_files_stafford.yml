@@ -1,6 +1,6 @@
 ---
 - name: Generate and store Linux software inventory
-  hosts: all
+  hosts: linux_hosts
   become: yes
   gather_facts: no
   vars:

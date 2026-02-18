@@ -1,6 +1,6 @@
 ---
 - name: Check software and update compliance against requirements
-  hosts: all
+  hosts: win_hosts
   gather_facts: no
   vars_files:
     - "vars/{{ inventory_hostname }}_required_software.yml"

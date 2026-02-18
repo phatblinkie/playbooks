@@ -1,11 +1,11 @@
 ---
 - name: Install and configure Grafana Alloy
-  hosts: all
+  hosts: linux_hosts
   become: yes
   vars:
     grafanahost: '192.168.10.211'
       #grafanahost: '164.225.186.87'
-    alloy_rpm_url: "http://{{ grafanahost }}/rpms/alloy-1.7.5-1.amd64.rpm"
+    alloy_rpm_url: "https://{{ grafanahost }}/rpms/alloy-1.7.5-1.amd64.rpm"
     alloy_rpm_filename: "alloy-1.7.5-1.amd64.rpm"
     alloy_config_content: |
       logging {

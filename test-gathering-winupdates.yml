@@ -1,6 +1,6 @@
 ---
 - name: Generate Windows Update availability metrics
-  hosts: all
+  hosts: win_hosts
   gather_facts: yes
   become: no
 

@@ -1,6 +1,6 @@
 ---
   - name: Install powershell scripts to c:\scripts
-    hosts: all
+    hosts: win_hosts
     gather_facts: yes
     vars:
       metrics_path: "C:\\metrics\\updates_available.prom"

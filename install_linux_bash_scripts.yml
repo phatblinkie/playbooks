@@ -1,6 +1,6 @@
 ---
   - name: Install bash scripts to /usr/local/bin/ and systemd service files
-    hosts: all
+    hosts: linux_hosts
     gather_facts: yes
     become: yes
     vars:

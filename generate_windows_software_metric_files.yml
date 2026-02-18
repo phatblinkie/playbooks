@@ -1,6 +1,6 @@
 ---
   - name: Generate Windows software metric files
-    hosts: all
+    hosts: win_hosts
     gather_facts: yes
     vars:
       get_installed_software_path: "C:\\scripts\\get_installed_software.ps1"

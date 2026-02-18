@@ -1,6 +1,6 @@
 ---
 - name: Windows Update Availability Check (Optimized)
-  hosts: all
+  hosts: win_hosts
   gather_facts: no
   vars:
     metrics_path: "C:\\metrics\\updates_available.prom"
