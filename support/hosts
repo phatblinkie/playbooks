@@ -2,7 +2,7 @@
 
 win:
   hosts:
-    win10.phat.lab:
+    win10:
   vars:
     ansible_connection:                    winrm
     ansible_user:                          vagrant
@@ -14,7 +14,7 @@ win:
 
 Win_Servers:
   hosts:
-    win2019.phat.lab:
+    win2019:
   vars:
     ansible_connection:                    psrp
     ansible_user:                          vagrant
@@ -25,9 +25,9 @@ Win_Servers:
 
 rhel9:
   hosts:
-    gameserver.phat.lab:
-    aap-ui.phat.lab:
-    aap-controller.phat.lab:
+    gameserver:
+    aap-ui:
+    aap-controller:
   vars:
     ansible_connection:                    ssh
     ansible_user:                          vagrant
