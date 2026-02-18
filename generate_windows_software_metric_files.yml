@@ -14,8 +14,9 @@
       - name: execute powershell software exporter
         win_shell: "{{ get_installed_software_path }}"
 
-      - name: execute powershell scheduled task
-        win_shell: "{{ create_scheduled_task_path }}"
+#no longer needed, it was run in the previous task
+#      - name: execute powershell scheduled task
+#        win_shell: "{{ create_scheduled_task_path }}"
 
       - name: execute powershell software export list
         win_shell: "{{ get_installed_software_path }}"
