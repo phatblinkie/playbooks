@@ -1,6 +1,6 @@
 ---
 - name: Windows Ansible Ping Check with Accurate Outage Tracking
-  hosts: all
+  hosts: win_hosts
   gather_facts: no
   vars:
     - metrics_file: "/var/lib/node_exporter/textfile_collector/host_metrics_windows.prom"

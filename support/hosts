@@ -1,155 +1,44 @@
 ---
-ungrouped:
-  hosts:
-    green.example.com:
-      ansible_host:               10.0.101.100
-    blue.example.com:
-    192.168.100.1:
-    192.168.100.10:
-
-rhel89:
-  hosts:
-    172.21.184.11
-  vars:
-    ansible_connection:                    ssh
-    ansible_user:                          forward.la
-    ansible_ssh_pass:                      DFyuqwhjty34JK@#23@#
-    ansible_become_password:               DFyuqwhjty34JK@#23@#
-
-rhelogs:
-  hosts:
-    164.225.186.149
-  vars:
-    ansible_connection:                    ssh
-    ansible_user:                          ogs-admin
-    ansible_ssh_pass:                      default_PASSWORD_8675309
-    ansible_become_password:               default_PASSWORD_8675309
 
 win:
   hosts:
-    164.225.186.81:
+    win10.phat.lab:
   vars:
     ansible_connection:                    winrm
-    ansible_user:                          forward.la
-    ansible_password:                      DFyuqwhjty34JK@#23@#
+    ansible_user:                          vagrant
+    ansible_password:                      0o9i8u7y)O(I*U&Y
     ansible_winrm_transport:               basic
     ansible_winrm_server_cert_validation:  ignore
     ansible_port:                          5985
 
-win_k:
-  hosts:
-    VMFWS3.J114.ARMY.MIL:
-    VMFWS4.J114.ARMY.MIL:
-    VMFWS5.J114.ARMY.MIL:
-  vars:
-    ansible_connection:                    psrp
-    ansible_user:                          forward.wk
-    ansible_password:                      default_PASSWORD_8675309
-    ansible_winrm_transport:               kerberos
-    ansible_winrm_server_cert_validation:  ignore
-    ansible_port:                          5985
 
 Win_Servers:
   hosts:
-    FMV.J114.ARMY.MIL:
-    OGS-VANTAGE.J114.ARMY.MIL:
-    ENTERPRISE-CA.J114.ARMY.MIL:
+    win2019.phat.lab:
   vars:
     ansible_connection:                    psrp
-    ansible_user:                          forward.sa
-    ansible_password:                      default_PASSWORD_8675309
+    ansible_user:                          vagrant
+    ansible_password:                      0o9i8u7y)O(I*U&Y
     ansible_winrm_transport:               kerberos
     ansible_winrm_server_cert_validation:  ignore
     ansible_port:                          5985
 
-VDI_Servers:
+rhel9:
   hosts:
-    viewcon.j114.army.mil:
-    vsql.j114.army.mil:
-  vars:
-    ansible_connection:                    psrp
-    ansible_user:                          forward.sa
-    ansible_password:                      default_PASSWORD_8675309
-    ansible_winrm_transport:               kerberos
-    ansible_winrm_server_cert_validation:  ignore
-    ansible_port:                          5985
-
-HBSS:
-  hosts:
-    aess.j114.army.mil:
-  vars:
-    ansible_connection: psrp
-    ansible_psrp_auth: certificate
-    ansible_psrp_certificate_pem: /playbooks/support/cert.pem
-    ansible_psrp_certificate_key_pem: /playbooks/support/cert.key
-    ansible_psrp_cert_validation: ignore
-    ansible_winrm_server_cert_validation:  ignore
-
-Domain_Controllers:
-  hosts:
-    dc1.j114.army.mil:
-    dc2.j114.army.mil:
-  vars:
-    ansible_connection:                    psrp
-    ansible_user:                          forward.da
-    ansible_password:                      default_PASSWORD_8675309
-    ansible_winrm_transport:               kerberos
-    ansible_winrm_server_cert_validation:  ignore
-    ansible_port:                          5985
-
-VADER:
-  hosts:
-    GPED-SVR-V1.j114.army.mil
-  vars:
-    ansible_connection:                    psrp
-    ansible_user:                          forward.sa
-    ansible_password:                      default_PASSWORD_8675309
-    ansible_winrm_transport:               kerberos
-    ansible_winrm_server_cert_validation:  ignore
-    ansible_port:                          5985
-
-Syscon:
-  hosts:
-    ans-syscon.j114.army.mil:
-  vars:
-    ansible_connection:                    psrp
-    ansible_user:                          forward.sa
-    ansible_password:                      default_PASSWORD_8675309
-    ansible_winrm_transport:               kerberos
-    ansible_winrm_server_cert_validation:  ignore
-    ansible_port:                          5985
-
-Link_Control:
-  hosts:
-    vnia1.j114.army.mil:
-    vnia2.j114.army.mil:
-    netcfgsvr1.j114.army.mil:
+    gameserver.phat.lab:
+    aap-ui.phat.lab:
+    aap-controller.phat.lab:
   vars:
     ansible_connection:                    ssh
-    ansible_user:                          ogs-admin
-    ansible_ssh_pass:                      default_PASSWORD_8675309
-    ansible_become_password:               default_PASSWORD_8675309
-
-VNIA4:
-  hosts:
-    vnia4.j114.army.mil
-  vars:
-    ansible_connection:                    ssh
-    ansible_user:                          ogs-admin
-    ansible_ssh_pass:                      default_PASSWORD_8675309
-    ansible_become_password:               default_PASSWORD_8675309
+    ansible_user:                          vagrant
+    ansible_ssh_pass:                      0o9i8u7y)O(I*U&Y
+    ansible_become_password:               0o9i8u7y)O(I*U&Y
 
 win_hosts:
   children:
-    win_k:
     Win_Servers:
-    VDI_Servers:
-    Domain_Controllers:
-    HBSS:
-    VADER:
-    Syscon:
+    win:
 
 linux_hosts:
   children:
-    Link_Control:
-    VNIA4:
+    rhel9:
