@@ -3,6 +3,7 @@
 win:
   hosts:
     win10:
+    win11:
   vars:
     ansible_connection:                    winrm
     ansible_user:                          vagrant
